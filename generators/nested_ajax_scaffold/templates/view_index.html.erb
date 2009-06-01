@@ -1,0 +1,24 @@
+<h1>Listing <%= controller_plural_name %></h1>
+
+<table>
+  <tr>
+<% for attribute in attributes -%>
+    <th><%= attribute.column.human_name %></th>
+<% end -%>
+  </tr>
+
+  <%% @<%= controller_plural_name %>.each do |<%= singular_name %>| %>
+  <tr>
+<% for attribute in attributes -%>
+    <td><%%=h <%= singular_name %>.<%= attribute.name_to_show %> %></td>
+<% end -%>
+    <td><%%= link_to 'Show', <%= controller_resource_name_singularized %>_path(<%= singular_name %>) %></td>
+    <td><%%= link_to 'Edit', edit_<%= controller_resource_name_singularized %>_path(<%= singular_name %>) %></td>
+    <td><%%= link_to 'Delete', <%= controller_resource_name_singularized %>_path(<%= singular_name %>), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+  <%% end -%>
+</table>
+
+<br />
+
+<%%= link_to 'New <%= controller_singular_name %>', new_<%= controller_resource_name_singularized %>_path %>

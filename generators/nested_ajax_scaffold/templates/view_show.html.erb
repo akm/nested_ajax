@@ -1,0 +1,28 @@
+<%% nested_ajax_pane(@<%= controller_singular_name %>, :controller => '<%= controller_name %>') do |pane| -%>
+
+<% attributes.each do |attribute|  -%>
+<% if attribute.belongs_to? -%>
+<%% unless f.foreign_key?(:<%= attribute.name %>) -%>
+  <div>
+    <div class="label"><%= attribute.name %>:</div>
+    <div class="value <%= attribute.name %>"><%%=h @<%= controller_singular_name %>.<%= attribute.name %> %></div>
+  </div>
+<%% end -%>
+<% else -%>
+  <div>
+    <div class="label"><%= attribute.name %>:</div>
+    <div class="value <%= attribute.name %>"><%%=h @<%= controller_singular_name %>.<%= attribute.name %> %></div>
+  </div>
+<% end -%>
+<% end -%>
+
+  <%% join_line_with do -%>
+    <%%= pane.link_to_edit('Edit') unless pane.root? -%>
+    <%%= pane.link_to_destroy('Delete', :effect => "Effect.Fade('#{pane.id}');") unless pane.root? -%>
+  <%% end -%>
+
+  <%% if pane.root? -%>
+    <%%= link_to 'Back', <%= controller_resource_name %>_path %>
+  <%% end -%>
+
+<%% end -%>

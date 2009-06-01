@@ -1,0 +1,22 @@
+<%% nested_ajax_pane(@<%= controller_singular_name %>, :controller => '<%= controller_name %>') do |pane| -%>
+
+  <%% if pane.root? -%>
+    <h1>New <%= controller_singular_name %></h1>
+  <%% end -%>
+
+  <%% pane.form_for(@<%= controller_singular_name %>, :url => <%= controller_resource_name %>_path) do |f| %>
+    <%%= f.error_messages %>
+
+    <%%= render :partial => '<%= controller_name %>/form', :locals => {:f => f} %>
+
+    <div class="commands">
+      <%%= f.submit 'Create' if f.submittable? %>
+      <%%= pane.link_to_new_cancel('Cancel') unless f.xhr? %>
+    </div>
+  <%% end %>
+
+  <%% if pane.root? -%>
+    <%%= link_to 'Back', <%= controller_resource_name %>_path %>
+  <%% end -%>
+
+<%% end -%>
