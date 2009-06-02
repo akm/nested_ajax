@@ -77,7 +77,12 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
       elsif selectable_attr_type == :multi
         return :input
       end
-      :input
+      case field_type
+      when :text_area then
+        :textarea
+      else
+        :input
+      end
     end
     
     def belongs_to?
