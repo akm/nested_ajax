@@ -140,9 +140,9 @@ module NestedAjax
         tag_name, html_options = PaneTag.name_and_options(pane_id, options[:html])
         form_options = {
           :update => pane_id,
+          :url => options[:url]
         }
-        html_options = html_options.update(options[:html] || {})
-        PaneTag.render(@template, pane_id, options[:html]) do
+        PaneTag.render(@template, pane_id, html_options) do
           remote_form_for(*(args + [form_options])) do |f|
             nested_ajax_options.each do |key, value|
               concat(hidden_field_tag(:"nested_ajax[#{key}]", value))

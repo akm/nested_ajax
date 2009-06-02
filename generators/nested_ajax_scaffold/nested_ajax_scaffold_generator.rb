@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+require "yaml/store"
+
 module Rails::Generator::Commands
   def self.map_resources_def(*resources)
     options = resources.extract_options!
@@ -52,7 +54,8 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
 
     attr_accessor :selectable_attr_type, :selectable_attr_base_name, :selectable_attr_enum
     
-    def initialize(column, reflection = nil)
+    def initialize(generator, column, reflection = nil)
+      @generator = generator
       @column = column
       @name, @type = column.name, column.type.to_sym
       @reflection = reflection
@@ -90,8 +93,8 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
     end
 
     def field
-      if @reflection && belongs_to?
-        "belongs_to_field :#{@reflection.name.to_s}, :url => {:controller => '/#{controller_name}', :action => 'index'}"
+      if belongs_to?
+        "belongs_to_field :#{@reflection.name.to_s}, :url => {:controller => '#{@generator.model_to_controller(@reflection.class_name)}', :action => 'index'}"
       else
         "#{field_type} :#{name}"
       end
@@ -161,6 +164,7 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
                 :controller_name_raw,
                 :controller_category_name,
                 :controller_reflections,
+                :one_to_many_reflections,
                 :attrs_expression_for_test,
                 :default_file_extension
   
@@ -171,10 +175,13 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
     begin
       @default_file_extension = "html.erb"
       @model_class = class_name.constantize
-      @controller_name_raw = @controller_name = @args.pop || @name.pluralize
-      if @controller_category_name = @args.shift
-        @controller_name = [@controller_category_name, @controller_name].join("/")
+      @controller_name_raw = @controller_name = @args.pop || @name.underscore.pluralize
+      puts "options: #{options.inspect}"
+      if @controller_category_name = options[:category]
+        @controller_name = [@controller_category_name, @controller_name].compact.join("/")
       end
+      save_model_to_controller(@model_class.name)
+
 
       base_name, @controller_class_path, @controller_file_path, @controller_class_nesting, @controller_class_nesting_depth = extract_modules(@controller_name)
       @controller_class_name_without_nesting, @controller_file_name, @controller_plural_name = inflect_names(base_name)
@@ -191,10 +198,18 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
       @controller_resource_name_singularized = @controller_resource_name.singularize
 
       @controller_base_url = @controller_category_name ?
-        [controller_category_name, @controller_name_raw].join('/') :
+        [controller_category_name, @controller_name_raw].compact.join('/') :
         @controller_resource_name
 
       @controller_reflections = @model_class.reflections
+      @one_to_many_reflections = @controller_reflections.values.select do |reflection|
+        (reflection.macro == :has_many) && # :has_and_belongs_to_many はひとまずサポート外
+          @model_class.instance_methods.include?("#{reflection.name}_attributes=")
+      end
+      (@controller_reflections.values - @one_to_many_reflections).each do |reflection|
+        puts "INFO #{reflection.macro} :#{reflection.name} is ignored in view because #{@model_class.name} doesn't have accepts_nested_attributes_for(:#{reflection.name})"
+      end
+
 
       except_col_names = ['id']
       columns = @model_class.columns.select{|col| !except_col_names.include?(col.name) }
@@ -207,7 +222,7 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
 
       ignore_selectable_attr = options[:ignore_selectable_attr] || !(Module.const_get(:SelectableAttr) rescue nil)
       @attributes = columns.map do |column| 
-        attr = Attribute.new(column, column_to_reflection[column.name.to_s])
+        attr = Attribute.new(self, column, column_to_reflection[column.name.to_s])
         unless ignore_selectable_attr
           attr.selectable_attr_type = @model_class.selectable_attr_type_for(column.name.to_s)
           if attr.selectable_attr_type
@@ -227,6 +242,34 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
     end
   end
   
+  def save_model_to_controller(model_name, category = controller_category_name, controller = controller_name)
+    db = YAML::Store.new(File.join(RAILS_ROOT, 'config/nested_ajax.yml'))
+    db.transaction do
+      db[category || 'default'] ||= {}
+      old_value = db[category || 'default'][model_name]
+      if !old_value.blank? && (old_value != controller)
+        puts "WARNING!! controller name for #{model_name} is changed from #{old_value} to #{controller}"
+      end
+      db[category || 'default'][model_name] = controller
+    end
+  end
+
+  def model_to_controller(model_name)
+    db = YAML::Store.new(File.join(RAILS_ROOT, 'config/nested_ajax.yml'))
+    db.transaction(true) do # readonly = true
+      [controller_category_name, 'default'].compact.each do |categ|
+        if map = db[categ]
+          if controller = map[model_name]
+            return controller
+          end
+        end
+      end
+    end
+    result = [controller_category_name, model_name.underscore.pluralize].compact.join('/')
+    save_model_to_controller(model_name, controller_category_name, result)
+    result
+  end
+
   def test_attrs_expression(attributes)
     test_attr_names = nil
     begin
@@ -332,12 +375,15 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
   SCAFFOLD_PARTIALS = %w(form)
 
   def banner
-    "Usage: #{$0} nested_ajax_scaffold ModelName [ControllerCategoryName] ControllerName"
+    "Usage: #{$0} nested_ajax_scaffold ModelName [ControllerName]"
   end
 
   def add_options!(opt)
     opt.separator ''
     opt.separator 'Options:'
+    opt.on('--category=[cateogry name]',
+      "Category name is used as path_prefix and name_prefix in config/routes.rb, and used also as name space for model/controller mapping") { |v| 
+      options[:category] = v }
     opt.on("--add-timestamps",
       "Add timestamps to the view files for this model") { |v| options[:add_timestamps] = v }
     opt.on("--ignore-selectable-attr",
