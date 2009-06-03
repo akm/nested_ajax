@@ -4,6 +4,19 @@ module NestedAjax
   module Pane
     class SinglePane < AbstractPane
 
+      def belongs_to(association_name, options = {})
+        if form
+          form.fields_for(association_name, form.object) do |f|
+            pane = Pane::BelongsToPane.new(template, f, association_name,
+              {:pane_id => "#{self.pane_id}_#{association_name}"}.update(options || {}))
+            pane.parent = self
+            yield(pane)
+          end
+        else
+          raise "Unsupported yet"
+        end
+      end
+
       def has_many(association_name, options = {})
         pane = Pane::HasManyPane.new(template, object, association_name, options)
         pane.parent = self

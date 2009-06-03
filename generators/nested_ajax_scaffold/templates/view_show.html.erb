@@ -2,10 +2,10 @@
 
 <% attributes.each do |attribute|  -%>
 <% if attribute.belongs_to? -%>
-<%% unless f.foreign_key?(:<%= attribute.name %>) -%>
+<%% unless pane.foreign_key?(:<%= attribute.name %>) -%>
   <div>
-    <div class="label"><%= attribute.name %>:</div>
-    <div class="value <%= attribute.name %>"><%%=h @<%= controller_singular_name %>.<%= attribute.name %> %></div>
+    <div class="label"><%= attribute.reflection.name %>:</div>
+    <div class="value <%= attribute.name %>"><%%=h @<%= controller_singular_name %>.<%= attribute.reflection.name %>_name_for_nested_ajax %></div>
   </div>
 <%% end -%>
 <% else -%>
@@ -19,14 +19,12 @@
 <% one_to_many_reflections.each do |reflection| -%>
 <% has_many_controller_name = [controller_category_name, reflection.class_name.underscore.pluralize].join('/') -%>
   <h3><%= reflection.name.to_s.humanize %></h3>
-  <div class="record_table">
-    <%% pane.has_many(:<%= reflection.name %>, :controller => '<%= has_many_controller_name %>') do |<%= reflection.name %>_pane| -%>
-      <%% <%= reflection.name %>_pane.each do |<%= reflection.name.to_s.singularize %>_pane| -%>
-        <%%= <%= reflection.name.to_s.singularize %>_pane.render :file => '<%= has_many_controller_name %>/show' %>
-      <%% end -%>
-      <%%= <%= reflection.name %>_pane.link_to_new('add <%= reflection.name.to_s.singularize %>') %>
+  <%% pane.has_many(:<%= reflection.name %>, :controller => '<%= has_many_controller_name %>') do |<%= reflection.name %>_pane| -%>
+    <%% <%= reflection.name %>_pane.each do |<%= reflection.name.to_s.singularize %>_pane| -%>
+      <%%= <%= reflection.name.to_s.singularize %>_pane.render :file => '<%= has_many_controller_name %>/show' %>
     <%% end -%>
-  </div>
+    <%%= <%= reflection.name %>_pane.link_to_new('add <%= reflection.name.to_s.singularize %>') %>
+  <%% end -%>
 
 <% end -%>
 

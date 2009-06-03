@@ -7,6 +7,9 @@ module NestedAjax
 
       def initialize(template, form_or_object, association_name, options = {})
         super(template, form_or_object, association_name, options)
+        unless @reflection.macro == :has_many
+          raise ArgumentError, "#{association_name} of #{object.class.name} is not defined with belongs_to but #{@reflection.macro}"
+        end
         @child_index = options[:child_index] || @associated_object.size
       end
       
@@ -39,13 +42,13 @@ module NestedAjax
           :object_name => controller.to_s.singularize,
           :url => new_url do |parameters|
             if object.respond_to?(:new_record?) && !object.new_record?
-              parameters[:"#{controller.to_s.singularize}[#{association_foreign_key}]"] = object.id
+              parameters[:"#{@reflection.class_name.underscore}[#{association_foreign_key}]"] = object.id
             end
           end
         }.update(options || {})
         base_script = remote_function(options)
         link_to(link_name, 'javascript:void(0)', html_options) <<
-          javascript_tag(<<-"EOS")
+          javascript_tag(%{
             (function(){
               var base_script = "#{base_script}";
               var child_index = #{@child_index};
@@ -57,7 +60,7 @@ module NestedAjax
                 Event.stop(event);
               }, true);
             })();
-          EOS
+          }.split(/$/).map(&:strip).join)
       end
 
       def new_url(no_place_holder = false)

@@ -1,11 +1,13 @@
-<% attributes.each do |attribute|  -%>
+<% attributes.each do |attribute| -%>
 <% if attribute.belongs_to? -%>
 <%% if f.foreign_key?(:<%= attribute.name %>) -%>
   <%%= f.hidden_field :<%= attribute.name %> %>
 <%% else -%>
   <%%= f.label :<%= attribute.name %> %>
   <div class="field">
-    <%%= f.<%= attribute.field %> %>
+    <%% f.<%= attribute.field %> do |pane| -%>
+      <%%= pane.link_to_new "new <%= attribute.reflection.name %>" -%>
+    <%% end -%>
   </div>
 <%% end -%>
 <% else -%>

@@ -7,6 +7,8 @@ module NestedAjax
 
       def initialize(template, form_or_object, association_name, options = {})
         super(template, form_or_object, options)
+        @reflection = object.class.reflections[association_name]
+        raise ArgumentError, "association not found - #{association_name} for #{object.class.name}" unless @reflection
         @association_name = association_name
         @associated_object = @object.send(@association_name)
         @controller ||= @association_name
@@ -22,9 +24,9 @@ module NestedAjax
 
       # 
       def association_foreign_key
-        object.class.reflections[association_name.to_sym].primary_key_name
+        reflection = object.class.reflections[association_name.to_sym]
+        reflection.macro == :belongs_to ? reflection.association_foreign_key : reflection.primary_key_name
       end
-
       
     end
   end

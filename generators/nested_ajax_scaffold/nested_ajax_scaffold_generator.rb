@@ -52,7 +52,8 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
 
   class Attribute < Rails::Generator::GeneratedAttribute
 
-    attr_accessor :selectable_attr_type, :selectable_attr_base_name, :selectable_attr_enum
+    attr_reader :reflection 
+    attr_reader :selectable_attr_type, :selectable_attr_base_name, :selectable_attr_enum
     
     def initialize(generator, column, reflection = nil)
       @generator = generator
@@ -94,7 +95,7 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
 
     def field
       if belongs_to?
-        "belongs_to_field :#{@reflection.name.to_s}, :url => {:controller => '#{@generator.model_to_controller(@reflection.class_name)}', :action => 'names'}"
+        "belongs_to_field :#{@reflection.name.to_s}, :controller => '#{@generator.model_to_controller(@reflection.class_name)}'"
       else
         "#{field_type} :#{name}"
       end

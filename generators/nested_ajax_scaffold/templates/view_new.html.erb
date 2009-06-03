@@ -11,7 +11,7 @@
 
     <div class="commands">
       <%%= f.submit 'Create' if f.submittable? %>
-      <%%= pane.link_to_new_cancel('Cancel') unless f.xhr? %>
+      <%%= pane.link_to_new_cancel('Cancel') if f.xhr? %>
     </div>
   <%% end %>
 

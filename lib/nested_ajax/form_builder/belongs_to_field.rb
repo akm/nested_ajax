@@ -4,12 +4,13 @@ module NestedAjax
   module FormBuilder
     module BelongsToField
       
-      def belongs_to_field(association_name, options = {})
+      def belongs_to_field(association_name, options = {}, &block)
         reflection = object.class.reflections[association_name.to_sym]
         raise ArgumentError, "association not found - #{association_name}" unless reflection
         unless reflection.macro == :belongs_to
           raise ArgumentError, "#{association_name} of #{object.class.name} is not defined with belongs_to but #{reflection.macro}"
         end
+        url = @template.url_for(options[:url] || {:controller => options[:controller], :action => options[:action] || 'names'})
         base_id = "#{object.class.name}_#{object.object_id}_#{association_name}"
         reflection_name = nil
         if object
@@ -47,9 +48,20 @@ module NestedAjax
         }.split(/$/).map(&:strip).join
         auto_complete_options = auto_complete_options.to_json.gsub(/\}$/, ", updateElement: #{update_element_function}}")
         result << "\n" << @template.javascript_tag(%{
-          new Ajax.Autocompleter('#{base_id}_display', '#{base_id}_results',
-            '#{@template.url_for(options[:url])}', #{auto_complete_options})
+          new Ajax.Autocompleter('#{base_id}_display', '#{base_id}_results', '#{url}',
+            #{auto_complete_options})
           }.split(/$/).map(&:strip).join)
+
+        if block_given?
+          @template.concat(result)
+          on_click_link_to_new = %{
+            $("#{base_id}_display").disabled = true;
+            $("#{base_id}_fk").disabled = true;
+          }.split(/$/).map(&:strip).join
+          belongs_to_pane_options = {:link_to_new => {:success => on_click_link_to_new} }.update(options || {})
+          self.pane.belongs_to(association_name, belongs_to_pane_options, &block)
+        end
+
         result
       end
 

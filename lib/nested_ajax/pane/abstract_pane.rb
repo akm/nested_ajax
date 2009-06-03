@@ -9,7 +9,8 @@ module NestedAjax
 
       attr_accessor :controller
       attr_accessor :parent, :association_foreign_key
-      attr_reader :template, :form, :id, :options
+      attr_accessor :form
+      attr_reader :template, :options
       attr_reader :object, :object_name
       attr_reader :pane_id
       alias_method :id, :pane_id
@@ -110,7 +111,13 @@ module NestedAjax
       def form_for(*args, &block)
         pane_setter = lambda do |f|
           f.pane = self
-          concat(capture(f, &block))
+          old_form = self.form
+          self.form = f
+          begin
+            concat(capture(f, &block))
+          ensure
+            self.form = old_form
+          end
         end
         if params[:nested_ajax]
           form_or_fields_for(*args, &pane_setter)
@@ -122,6 +129,13 @@ module NestedAjax
       private
 
       def form_or_fields_for(*args, &block)
+        if form_name = nested_ajax_options[:form_name]
+          case args.first
+          when Symbol, String
+            args.shift
+          end
+          args = [form_name] + args
+        end
         if in_form?
           fields_for_nested_ajax(*args, &block)
         else
@@ -137,11 +151,11 @@ module NestedAjax
 
       def form_for_nested_ajax(*args, &block)
         options = args.extract_options!
-        tag_name, html_options = PaneTag.name_and_options(pane_id, options[:html])
+        tag_name, html_options = PaneTag.name_and_options(pane_id, options.delete(:html))
         form_options = {
           :update => pane_id,
           :url => options[:url]
-        }
+        }.update(options)
         PaneTag.render(@template, pane_id, html_options) do
           remote_form_for(*(args + [form_options])) do |f|
             nested_ajax_options.each do |key, value|

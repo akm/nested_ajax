@@ -61,9 +61,13 @@ class <%= controller_class_name %>Controller < ApplicationController
   # PUT /<%= table_name %>/1.xml
   def update
     @<%= controller_singular_name %> = <%= class_name %>.find(params[:id])
-
+    
     respond_to do |format|
       if @<%= controller_singular_name %>.update_attributes(params[:<%= controller_singular_name %>])
+        # belongs_to, has_one, has_many などの関連のキャッシュをクリアしておきます
+        @<%= controller_singular_name %>.clear_association_cache
+        # composed_of などの集約のキャッシュをクリアしておきます
+        @<%= controller_singular_name %>.clear_aggregation_cache
         flash[:notice] = '<%= class_name %> was successfully updated.'
         format.html { render_if_xhr(:action => 'show') || redirect_to(:action => 'show', :id => @<%= controller_singular_name %>.id) }
         format.xml  { head :ok }
