@@ -132,4 +132,13 @@ describe <%= controller_class_name %>Controller do
     end
   end
 
+  describe "GET names" do
+    it "return name and id" do
+      <%= class_name %>.stub!(:find_with_name).with('searching string').
+        and_return([mock_<%= file_name %>(:id => 1)])
+      mock_<%= file_name %>.should_receive(:name_for_nested_ajax).and_return("Ivica Osim")
+      get :names, :name => 'searching string'
+    end
+  end
+
 end
