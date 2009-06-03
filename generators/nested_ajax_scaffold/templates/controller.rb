@@ -89,4 +89,19 @@ class <%= controller_class_name %>Controller < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  # GET /<%= table_name %>/name
+  # GET /<%= table_name %>/names.xml
+  # GET /<%= table_name %>/names.json
+  def names
+    <%= controller_plural_name %> = <%= class_name %>.find_with_name(params[:name])
+    result = <%= controller_plural_name %>.map{|<%= controller_singular_name %>|
+      [<%= controller_singular_name %>.name_for_nested_ajax, <%= controller_singular_name %>.id] }
+    respond_to do |format|
+      format.html { render :text => auto_complete_html(result)}
+      format.json { render :text => result.map{|(name, id)| {:name => name, :id => id} }.to_json }
+      format.xml  { render :xml => result.map{|(name, id)| {:name => name, :id => id} } }
+    end
+  end
+
 end

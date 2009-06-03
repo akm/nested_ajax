@@ -8,3 +8,8 @@ end
 ActionView::Helpers::FormBuilder.class_eval do
   include NestedAjax::FormBuilder
 end
+
+ActiveRecord::Base.class_eval do
+  include NestedAjax::NameToDisplay
+end
+

@@ -1,6 +1,6 @@
 <% attributes.each do |attribute|  -%>
 <% if attribute.belongs_to? -%>
-<%% if f.foreign_key?(:party_id) -%>
+<%% if f.foreign_key?(:<%= attribute.name %>) -%>
   <%%= f.hidden_field :<%= attribute.name %> %>
 <%% else -%>
   <%%= f.label :<%= attribute.name %> %>

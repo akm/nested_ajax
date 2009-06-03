@@ -1,5 +1,16 @@
 module NestedAjax
   module FormBuilder
+    unless defined?(EXTENSIONS)
+      EXTENSIONS = [
+        :BelongsToField
+      ]
+
+      EXTENSIONS.each do |extension|
+        autoload extension, "nested_ajax/form_builder/#{extension.to_s.underscore}"
+        include NestedAjax::FormBuilder.const_get(extension)
+      end
+    end
+
     attr_accessor :pane
 
     pane_forwarding_methods = [

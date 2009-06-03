@@ -94,7 +94,7 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
 
     def field
       if belongs_to?
-        "belongs_to_field :#{@reflection.name.to_s}, :url => {:controller => '#{@generator.model_to_controller(@reflection.class_name)}', :action => 'index'}"
+        "belongs_to_field :#{@reflection.name.to_s}, :url => {:controller => '#{@generator.model_to_controller(@reflection.class_name)}', :action => 'names'}"
       else
         "#{field_type} :#{name}"
       end
@@ -344,21 +344,26 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
         m.template "show_erb_spec.rb",
           File.join('spec/views', controller_class_path, controller_file_name, "show.#{default_file_extension}_spec.rb")
 
+        m.file("nested_ajax_indicator.gif", 'public/images/nested_ajax_indicator.gif')
 
         if controller_category_name
           m.route_resources(
             controller_name_raw.gsub(/\//, '_'), 
             :path_prefix => controller_category_name,
             :name_prefix => controller_category_name.gsub(/\//, '_') + '_',
-            :controller => controller_name
+            :controller => controller_name,
+            :collection => {:names => :get}
             )
         elsif controller_class_nesting_depth > 0
           m.route_resources(
             controller_resource_name,
-            :controller => controller_name
+            :controller => controller_name,
+            :collection => {:names => :get}
             )
         else
-          m.route_resources(controller_resource_name)
+          m.route_resources(
+            controller_resource_name,
+            :collection => {:names => :get})
         end
 
       rescue Exception => e

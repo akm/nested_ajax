@@ -8,6 +8,29 @@ module NestedAjax
 
     private
 
+    def auto_complete_html(name_and_ids, options = {})
+      options = {
+        :outer_tag => :ul,
+        :inner_tag => :li,
+      }.update(options || {})
+      outer_tag = options[:outer_tag]
+      inner_tag = options[:inner_tag]
+      outer_tag = [outer_tag, {}] unless outer_tag.is_a?(Array)
+      inner_tag = [inner_tag, {}] unless inner_tag.is_a?(Array)
+      timestamp = Time.now.to_i
+      response.template.content_tag(outer_tag.first, 
+        name_and_ids.map do |(name, id)|
+          response.template.content_tag(inner_tag.first, 
+            response.template.sanitize(name) + 
+            response.template.content_tag(:span, 
+              response.template.sanitize(id.to_s), 
+              :id => "#{timestamp}_record_#{id}_value", :style => 'display:none;'),
+            {:id => "#{timestamp}_record_#{id}"}.update(inner_tag.last))
+        end.join,
+        outer_tag.last)
+    end
+
+
     def render_if_xhr(*args, &block)
       render(*args, &block) if request.xhr?
       request.xhr?
