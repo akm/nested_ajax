@@ -81,12 +81,16 @@ describe <%= controller_class_name %>Controller do
 
       it "assigns the requested <%= file_name %> as @<%= file_name %>" do
         <%= class_name %>.stub!(:find).and_return(mock_<%= file_name %>(:update_attributes => true))
+        mock_<%= file_name %>.should_receive(:clear_aggregation_cache).once
+        mock_<%= file_name %>.should_receive(:clear_association_cache).once
         put :update, :id => "1"
         assigns[:<%= file_name %>].should equal(mock_<%= file_name %>)
       end
 
       it "redirects to the <%= file_name %>" do
         <%= class_name %>.stub!(:find).and_return(mock_<%= file_name %>(:update_attributes => true))
+        mock_<%= file_name %>.should_receive(:clear_aggregation_cache).once
+        mock_<%= file_name %>.should_receive(:clear_association_cache).once
         put :update, :id => "1"
         response.should redirect_to(<%= controller_resource_name_singularized %>_url(mock_<%= file_name %>))
       end

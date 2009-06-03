@@ -19,7 +19,12 @@ describe "/<%= controller_file_path %>/edit.<%= default_file_extension %>" do
     response.should have_tag("form[action=?][method=post]", url_for(:controller => '<%= controller_name %>', :action => 'update', :id => @<%= file_name %>.id)) do
       with_tag('input[name=_method][value="put"]')
 <% for attribute in output_attributes -%>
-      with_tag('<%= attribute.input_type -%>#<%= file_name %>_<%= attribute.name %>[name=?]', "<%= file_name %>[<%= attribute.name %>]")
+<% if attribute.belongs_to? -%>
+      with_tag("input[id=?][type=text]", /<%= class_name %>_\d+_<%= attribute.reflection.name %>_display/)
+      with_tag("input[id=?][type=hidden][name=?]", /<%= class_name %>_\d+_<%= attribute.reflection.name %>_fk/, "<%= file_name %>[<%= attribute.name %>]")
+<% else -%>
+      with_tag("<%= attribute.input_type -%>#<%= file_name %>_<%= attribute.name %>[name=?]", "<%= file_name %>[<%= attribute.name %>]")
+<% end -%>
 <% end -%>
     end
   end
