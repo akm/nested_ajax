@@ -55,6 +55,8 @@ a:hover { color: #fff; background-color:#000; }
 br.clear { clear: both; }
 .invisible { display:none; }
 
+div.indent { margin-left: 2em; }
+
 /* auto_complete */
 
 div.auto_complete      { width: 350px; background: #FFF; }
@@ -62,14 +64,3 @@ div.auto_complete ul   { border 1px solid #888; margin:0; padding:0; width: 100%
 div.auto_complete ul li               { margin:0; padding: 3px; }
 div.auto_complete ul li.selected      { background-color: #FFB; }
 div.auto_complete ul strong.highlight { color: #800; margin:0; padding:0; }
-
-/* record_table */
-.record_table .nested_ajax label { display: none; }
-.record_table .nested_ajax .label { display: none; }
-.record_table .nested_ajax .field { float:left; }
-.record_table .nested_ajax .value { float:left; }
-.record_table .nested_ajax .commands { float:left; }
-
-.record_table { margin-left: 2em; }
-
-.record_table .party_email_address {width: 15em;}

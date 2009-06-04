@@ -25,6 +25,7 @@ module NestedAjax
           @object = form_or_object
         end
         @object_name = options[:object_name] || @object.class.name.underscore
+        @form_name = options[:form_name]
         @controller = options[:controller]
         @foreign_key = options[:foreign_key]
         @pane_id ||= (options[:pane_id] || nested_ajax_options[:pane_id] || "#{object_name}_#{object.object_id}")
@@ -78,6 +79,10 @@ module NestedAjax
 
       def base_form_name
         @base_form_name ||= object_name
+      end
+      
+      def form_name
+        @form_name ||= base_form_name
       end
       
       def nested_ajax_options

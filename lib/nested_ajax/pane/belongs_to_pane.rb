@@ -5,6 +5,7 @@ module NestedAjax
     class BelongsToPane < AssociationPane
       def initialize(template, form_or_object, association_name, options = {})
         super(template, form_or_object, association_name, options)
+        logger.debug("BelongsToPane.initialize @form_name => #{@form_name}")
         unless @reflection.macro == :belongs_to
           raise ArgumentError, "#{association_name} of #{object.class.name} is not defined with belongs_to but #{@reflection.macro}"
         end
@@ -35,17 +36,20 @@ module NestedAjax
 
       def new_url
         nested_ajax = {
-          :in_form => !form.nil?
+          :in_form => !form.nil?,
+          :pane_id => pane_id,
+          :form_name => form_name
         }
-        nested_ajax[:pane_id] = pane_id
-        if form
-          nested_ajax[:form_name] = base_form_name
-        end
         result = {:controller => controller, :action => :new, :nested_ajax => nested_ajax}
         yield(result) if block_given?
         result
       end
       
+      def form_name
+        @form_name ||= form_name_with_parent
+        logger.debug("BelongsToPane.form_name parent.nil? => #{parent.nil?.inspect}  @form_name => #{@form_name}")
+        @form_name
+      end
 
     end
   end

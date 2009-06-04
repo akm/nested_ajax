@@ -4,6 +4,11 @@ module NestedAjax
   module Pane
     class SinglePane < AbstractPane
 
+      def initialize(*args, &block)
+        super
+        logger.debug("SinglePane.initialize @form_name => #{@form_name}")
+      end
+
       def belongs_to(association_name, options = {})
         if form
           form.fields_for(association_name, form.object) do |f|
@@ -15,12 +20,14 @@ module NestedAjax
         else
           raise "Unsupported yet"
         end
+        logger.debug("SinglePane.belongs_to form_name => #{form_name}")
       end
 
       def has_many(association_name, options = {})
         pane = Pane::HasManyPane.new(template, object, association_name, options)
         pane.parent = self
         yield(pane)
+        logger.debug("SinglePane.has_many form_name => #{form_name}")
       end
 
       def link_to_new_cancel(name, options = nil)
@@ -59,7 +66,7 @@ module NestedAjax
           :foreign_key => association_foreign_key || foreign_key,
           :in_form => !form.nil?,
           :pane_id => pane_id,
-          :form_name => base_form_name
+          :form_name => form_name
         }
         result = {:controller => controller, :action => action, :id => object.id, :nested_ajax => nested_ajax}
         yield(result) if block_given?

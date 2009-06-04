@@ -22,6 +22,18 @@ module NestedAjax
         @base_form_name ||= "#{object_name}[#{association_name}_attributes]"
       end
 
+      private
+      
+      def form_name_with_parent
+         parent ?
+          "#{parent.form_name}[#{association_name}_attributes]" :
+          "#{object_name}[#{association_name}_attributes]"
+      end
+
+      
+
+      public
+      
       # 
       def association_foreign_key
         reflection = object.class.reflections[association_name.to_sym]

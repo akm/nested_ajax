@@ -7,6 +7,7 @@ module NestedAjax
 
       def initialize(template, form_or_object, association_name, options = {})
         super(template, form_or_object, association_name, options)
+        logger.debug("HasManyPane.initialize @form_name => #{@form_name}")
         unless @reflection.macro == :has_many
           raise ArgumentError, "#{association_name} of #{object.class.name} is not defined with belongs_to but #{@reflection.macro}"
         end
@@ -63,20 +64,25 @@ module NestedAjax
           }.split(/$/).map(&:strip).join)
       end
 
-      def new_url(no_place_holder = false)
+      def new_url
         nested_ajax = {
           :foreign_key => association_foreign_key,
-          :in_form => !form.nil?
+          :in_form => !form.nil?,
+          :form_name => form_name
         }
-        nested_ajax[:pane_id] = pane_id + (no_place_holder ? '' : '_' << place_holder(:child_index))
-        if form
-          form_name = base_form_name.dup
-          form_name << "[#{place_holder(:child_index)}]" unless no_place_holder
-          nested_ajax[:form_name] = form_name
-        end
+        nested_ajax[:pane_id] = pane_id + '_' << place_holder(:child_index)
         result = {:controller => controller, :action => :new, :nested_ajax => nested_ajax}
         yield(result) if block_given?
         result
+      end
+      
+      def form_name
+        unless @form_name
+          @form_name = form_name_with_parent
+          @form_name << "[#{place_holder(:child_index)}]"
+          logger.debug("HasManyPane.form_name @form_name => #{@form_name}")
+        end
+        @form_name
       end
 
     end
