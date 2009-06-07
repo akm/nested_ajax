@@ -67,7 +67,7 @@ module NestedAjax
       def new_url
         nested_ajax = {
           :foreign_key => association_foreign_key,
-          :in_form => !form.nil?,
+          :in_form => in_form?,
           :form_name => form_name
         }
         nested_ajax[:pane_id] = pane_id + '_' << place_holder(:child_index)

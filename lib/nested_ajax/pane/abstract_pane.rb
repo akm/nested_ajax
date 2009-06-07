@@ -98,8 +98,10 @@ module NestedAjax
       end
 
       def in_form?
-        nested_ajax_options[:in_form] == "true"
+        (nested_ajax_options[:in_form] == "true") || (
+          form ? true : parent ? parent.in_form? : false)
       end
+
 
       def foreign_key?(attr)
         attr.to_s == foreign_key
