@@ -1,3 +1,5 @@
+require 'nested_ajax'
+
 module NestedAjax
   module RenderExt
     def self.included(mod)

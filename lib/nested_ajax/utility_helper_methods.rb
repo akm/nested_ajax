@@ -1,3 +1,5 @@
+require 'nested_ajax'
+
 module NestedAjax
   module UtilityHelperMethods
     def join_line_with(separator = " |\n", &block)

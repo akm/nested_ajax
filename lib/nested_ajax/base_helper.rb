@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+require 'nested_ajax'
+
 module NestedAjax
   module BaseHelper
 

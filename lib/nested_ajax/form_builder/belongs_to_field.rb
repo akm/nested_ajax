@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'nested_ajax/form_builder'
 
 module NestedAjax
@@ -25,7 +26,8 @@ module NestedAjax
         result = "\n"
         result << "\n" << @template.tag(:input, :type => :text, :id => "#{base_id}_display", :value => reflection_name)
         result << "\n" << @template.content_tag(:div, '', :id => "#{base_id}_results", :class => 'auto_complete')
-        result << "\n" << hidden_field(foreign_key_name, :id => "#{base_id}_fk")
+        # hiddenにしたいんだけど、hiddenだとdisabledが効かないようなので、敢えて普通のtype="text"を指定した上で非表示にしています。
+        result << "\n" << text_field(foreign_key_name, :id => "#{base_id}_fk", :style => 'display:none;')
         auto_complete_options = {
           :method => 'get',
           :paramName => options[:param_name] || 'name',
@@ -55,8 +57,8 @@ module NestedAjax
         if block_given?
           @template.concat(result)
           on_click_link_to_new = %{
-            $("#{base_id}_display").disabled = true;
-            $("#{base_id}_fk").disabled = true;
+            $("#{base_id}_display").disable();
+            $("#{base_id}_fk").disable();
           }.split(/$/).map(&:strip).join
           belongs_to_pane_options = {:link_to_new => {:success => on_click_link_to_new} }.update(options || {})
           self.pane.belongs_to(association_name, belongs_to_pane_options, &block)

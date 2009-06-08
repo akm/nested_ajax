@@ -12,4 +12,3 @@ end
 ActiveRecord::Base.class_eval do
   include NestedAjax::NameToDisplay
 end
-

@@ -11,7 +11,10 @@ module NestedAjax
 
       def belongs_to(association_name, options = {})
         if form
+          @template.concat("<!-- before form.fields_for -->")
+          logger.debug("before form.fields_for #{form.object.inspect}")
           form.fields_for(association_name, form.object) do |f|
+            @template.concat("<!-- before in form.fields_for -->")
             pane = Pane::BelongsToPane.new(template, f, association_name,
               {:pane_id => "#{self.pane_id}_#{association_name}"}.update(options || {}))
             pane.parent = self

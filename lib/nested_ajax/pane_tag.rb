@@ -1,3 +1,5 @@
+require 'nested_ajax'
+
 module NestedAjax
   module PaneTag
 
