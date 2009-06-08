@@ -47,11 +47,15 @@ module NestedAjax
     FLASH_MESSAGE_ID_PREFIX = "nested_ajax_flash_message"
 
     # flashのメッセージを表示するための領域を出力します。
-    def flash_message_for(key, options = {})
+    def flash_message_for(*args)
+      options = args.extract_options!
       tag_name = options.delete(:tag_name) || 'p'
-      options[:style] = "color: #{FLASH_MESSAGE_COLORS[key.to_sym]}" if options.empty?
-      options.update(:id => "#{FLASH_MESSAGE_ID_PREFIX}_#{key.to_s}")
-      content_tag(tag_name, flash[key] || ' ', options)
+      tags = args.map do |key|
+        options[:style] = "color: #{FLASH_MESSAGE_COLORS[key.to_sym]}" if options.empty?
+        options.update(:id => "#{FLASH_MESSAGE_ID_PREFIX}_#{key.to_s}")
+        content_tag(tag_name, flash[key] || ' ', options)
+      end
+      tags.join
     end
 
     def ajax_flash_message_for(*args)

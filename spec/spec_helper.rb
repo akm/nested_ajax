@@ -15,8 +15,23 @@ unless defined?(RAILS_ENV)
   require 'action_view'
   require 'initializer'
 
-  $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "resources/controllers")
-  require 'application_controller.rb'
+  require 'yaml'
+  config = YAML.load(IO.read(File.join(File.dirname(__FILE__), 'database.yml')))
+  ActiveRecord::Base.logger = Logger.new(File.join(File.dirname(__FILE__), 'debug.log'))
+  ActionController::Base.logger = ActiveRecord::Base.logger
+  ActiveRecord::Base.establish_connection(config[ENV['DB'] || 'sqlite3'])
+
+
+  load(File.join(File.dirname(__FILE__), 'schema.rb'))
+
+  %w(resources/models resources/controllers).each do |path|
+    $LOAD_PATH.unshift File.join(File.dirname(__FILE__), path)
+    ActiveSupport::Dependencies.load_paths << File.join(File.dirname(__FILE__), path)
+  end
+  Dir.glob("resources/**/*.rb") do |filename|
+    require filename
+  end
+  
 
   ActionController::Routing::Routes.draw do |map|
     map.connect ':controller/:action/:id.:format'
