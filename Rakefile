@@ -11,11 +11,13 @@ task :default => :'spec'
 task :pre_commit => [:spec, 'coverage:verify']
  
 desc 'Run all specs under spec/**/*_spec.rb'
-Spec::Rake::SpecTask.new(:spec => 'coverage:clean') do |t|
+Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
-  t.spec_opts = ["-c", "--diff"]
+  t.spec_opts = ['--options', 'spec/spec.opts']
+  t.rcov_dir = 'coverage'
   t.rcov = true
-  t.rcov_opts = ["--include-file", "lib\/*\.rb", "--exclude", "spec\/"]
+  t.rcov_opts = ["--include-file", "lib\/*\.rb"]
+  t.rcov_opts = ["--exclude", "spec\/"]
 end
  
 desc 'Generate documentation for the selectable_attr plugin.'
