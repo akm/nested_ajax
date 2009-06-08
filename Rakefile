@@ -16,8 +16,8 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_opts = ['--options', 'spec/spec.opts']
   t.rcov_dir = 'coverage'
   t.rcov = true
-  t.rcov_opts = ["--include-file", "lib\/*\.rb"]
-  t.rcov_opts = ["--exclude", "spec\/"]
+  # t.rcov_opts = ["--include-file", "lib\/*\.rb"]
+  # t.rcov_opts = ["--exclude", "spec\/"]
 end
  
 desc 'Generate documentation for the selectable_attr plugin.'
