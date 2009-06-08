@@ -2,7 +2,7 @@
 <html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
   <head>
     <title>
-      lib/nested_ajax/form_builder.rb - C0 code coverage information
+      lib/nested_ajax/pane/single_pane.rb - C0 code coverage information
     </title>
     <style type='text/css'>
       body { background-color: rgb(240, 240, 245); }
@@ -173,59 +173,116 @@
     class='heading'> Total lines </td> <td class='heading'> Lines of code </td>
     <td class='heading'> Total coverage </td> <td class='heading'> Code coverage
     </td> </tr> </thead> <tbody> <tr class='light'> <td> <a
-    href='lib-nested_ajax-form_builder_rb.html'> lib/nested_ajax/form_builder.rb
-    </a> </td> <td class='lines_total'> <tt> 36 </tt> </td> <td
-    class='lines_code'> <tt> 29 </tt> </td> <td> <table cellspacing='0'
-    align='right' cellpadding='0'> <tr> <td> <tt class='coverage_total'> 100.0%
-    </tt> &nbsp; </td> <td> <table class='percent_graph' cellspacing='0'
-    width='100' cellpadding='0'> <tr> <td class='covered' width='100' /> <td
-    class='uncovered' width='0' /> </tr> </table> </td> </tr> </table> </td>
-    <td> <table cellspacing='0' align='right' cellpadding='0'> <tr> <td> <tt
-    class='coverage_code'> 100.0% </tt> &nbsp; </td> <td> <table
+    href='lib-nested_ajax-pane-single_pane_rb.html'>
+    lib/nested_ajax/pane/single_pane.rb </a> </td> <td class='lines_total'> <tt>
+    81 </tt> </td> <td class='lines_code'> <tt> 71 </tt> </td> <td> <table
+    cellspacing='0' align='right' cellpadding='0'> <tr> <td> <tt
+    class='coverage_total'> 27.2% </tt> &nbsp; </td> <td> <table
     class='percent_graph' cellspacing='0' width='100' cellpadding='0'> <tr> <td
-    class='covered' width='100' /> <td class='uncovered' width='0' /> </tr>
-    </table> </td> </tr> </table> </td> </tr> </tbody> </table><pre><span
-    class="marked0"><a name="line1"></a> 1 require 'nested_ajax' </span><span
-    class="inferred1"><a name="line2"></a> 2 </span><span class="marked0"><a
-    name="line3"></a> 3 module NestedAjax </span><span class="marked1"><a
-    name="line4"></a> 4 module FormBuilder </span><span class="marked0"><a
-    name="line5"></a> 5 unless defined?(EXTENSIONS) </span><span
-    class="marked1"><a name="line6"></a> 6 EXTENSIONS = [ </span><span
-    class="inferred0"><a name="line7"></a> 7 :BelongsToField </span><span
-    class="inferred1"><a name="line8"></a> 8 ] </span><span class="inferred0"><a
-    name="line9"></a> 9 </span><span class="marked1"><a name="line10"></a>10
-    EXTENSIONS.each do |extension| </span><span class="marked0"><a
-    name="line11"></a>11 autoload extension,
-    &quot;nested_ajax/form_builder/#{extension.to_s.underscore}&quot;
-    </span><span class="marked1"><a name="line12"></a>12 include
-    NestedAjax::FormBuilder.const_get(extension) </span><span
-    class="inferred0"><a name="line13"></a>13 end </span><span
-    class="inferred1"><a name="line14"></a>14 end </span><span
-    class="inferred0"><a name="line15"></a>15 </span><span class="marked1"><a
-    name="line16"></a>16 attr_accessor :pane </span><span class="inferred0"><a
-    name="line17"></a>17 </span><span class="marked1"><a name="line18"></a>18
-    pane_forwarding_methods = [ </span><span class="inferred0"><a
-    name="line19"></a>19 :pane_id, </span><span class="inferred1"><a
-    name="line20"></a>20 :has_many, </span><span class="inferred0"><a
-    name="line21"></a>21 :submittable?, </span><span class="inferred1"><a
-    name="line22"></a>22 :xhr?, :in_form?, :foreign_key?, :foreign_key,
-    :link_to_new_cancel </span><span class="inferred0"><a name="line23"></a>23 ]
-    </span><span class="inferred1"><a name="line24"></a>24 </span><span
-    class="marked0"><a name="line25"></a>25 pane_forwarding_methods.each do
-    |forwarding_method| </span><span class="marked1"><a name="line26"></a>26
-    class_eval(&lt;&lt;-EOS) </span><span class="inferred0"><a
-    name="line27"></a>27 def #{forwarding_method}(*args, &amp;block)
-    </span><span class="inferred1"><a name="line28"></a>28 raise
-    NestedAjax::UsageError, &quot;This form has no pane. You may use form_for
-    instead of pane.form_for&quot; unless pane </span><span class="inferred0"><a
-    name="line29"></a>29 pane.#{forwarding_method}(*args, &amp;block)
-    </span><span class="inferred1"><a name="line30"></a>30 end </span><span
-    class="inferred0"><a name="line31"></a>31 EOS </span><span
-    class="inferred1"><a name="line32"></a>32 end </span><span
-    class="inferred0"><a name="line33"></a>33 </span><span class="inferred1"><a
-    name="line34"></a>34 end </span><span class="inferred0"><a
-    name="line35"></a>35 </span><span class="inferred1"><a name="line36"></a>36
-    end </span></pre>
+    class='covered' width='27' /> <td class='uncovered' width='73' /> </tr>
+    </table> </td> </tr> </table> </td> <td> <table cellspacing='0'
+    align='right' cellpadding='0'> <tr> <td> <tt class='coverage_code'> 18.3%
+    </tt> &nbsp; </td> <td> <table class='percent_graph' cellspacing='0'
+    width='100' cellpadding='0'> <tr> <td class='covered' width='18' /> <td
+    class='uncovered' width='82' /> </tr> </table> </td> </tr> </table> </td>
+    </tr> </tbody> </table><pre><span class="marked0"><a name="line1"></a> 1
+    require 'nested_ajax/pane' </span><span class="inferred1"><a
+    name="line2"></a> 2 </span><span class="marked0"><a name="line3"></a> 3
+    module NestedAjax </span><span class="marked1"><a name="line4"></a> 4 module
+    Pane </span><span class="marked0"><a name="line5"></a> 5 class SinglePane
+    &lt; AbstractPane </span><span class="inferred1"><a name="line6"></a> 6
+    </span><span class="marked0"><a name="line7"></a> 7 def initialize(*args,
+    &amp;block) </span><span class="uncovered1"><a name="line8"></a> 8 super
+    </span><span class="uncovered0"><a name="line9"></a> 9
+    logger.debug(&quot;SinglePane.initialize @form_name =&gt;
+    #{@form_name}&quot;) </span><span class="uncovered1"><a name="line10"></a>10
+    end </span><span class="inferred0"><a name="line11"></a>11 </span><span
+    class="marked1"><a name="line12"></a>12 def belongs_to(association_name,
+    options = {}) </span><span class="uncovered0"><a name="line13"></a>13 if
+    form </span><span class="uncovered1"><a name="line14"></a>14
+    @template.concat(&quot;&lt;!-- before form.fields_for --&gt;&quot;)
+    </span><span class="uncovered0"><a name="line15"></a>15
+    logger.debug(&quot;before form.fields_for #{form.object.inspect}&quot;)
+    </span><span class="uncovered1"><a name="line16"></a>16
+    form.fields_for(association_name, form.object) do |f| </span><span
+    class="uncovered0"><a name="line17"></a>17 @template.concat(&quot;&lt;!--
+    before in form.fields_for --&gt;&quot;) </span><span class="uncovered1"><a
+    name="line18"></a>18 pane = Pane::BelongsToPane.new(template, f,
+    association_name, </span><span class="uncovered0"><a name="line19"></a>19
+    {:pane_id =&gt;
+    &quot;#{self.pane_id}_#{association_name}&quot;}.update(options || {}))
+    </span><span class="uncovered1"><a name="line20"></a>20 pane.parent = self
+    </span><span class="uncovered0"><a name="line21"></a>21 yield(pane)
+    </span><span class="uncovered1"><a name="line22"></a>22 end </span><span
+    class="uncovered0"><a name="line23"></a>23 else </span><span
+    class="uncovered1"><a name="line24"></a>24 raise &quot;Unsupported yet&quot;
+    </span><span class="uncovered0"><a name="line25"></a>25 end </span><span
+    class="uncovered1"><a name="line26"></a>26
+    logger.debug(&quot;SinglePane.belongs_to form_name =&gt; #{form_name}&quot;)
+    </span><span class="uncovered0"><a name="line27"></a>27 end </span><span
+    class="inferred1"><a name="line28"></a>28 </span><span class="marked0"><a
+    name="line29"></a>29 def has_many(association_name, options = {})
+    </span><span class="uncovered1"><a name="line30"></a>30 pane =
+    Pane::HasManyPane.new(template, object, association_name, options)
+    </span><span class="uncovered0"><a name="line31"></a>31 pane.parent = self
+    </span><span class="uncovered1"><a name="line32"></a>32 yield(pane)
+    </span><span class="uncovered0"><a name="line33"></a>33
+    logger.debug(&quot;SinglePane.has_many form_name =&gt; #{form_name}&quot;)
+    </span><span class="uncovered1"><a name="line34"></a>34 end </span><span
+    class="inferred0"><a name="line35"></a>35 </span><span class="marked1"><a
+    name="line36"></a>36 def link_to_new_cancel(name, options = nil)
+    </span><span class="uncovered0"><a name="line37"></a>37
+    link_to_function(name, &quot;Element.remove('#{self.id}')&quot;, options)
+    </span><span class="uncovered1"><a name="line38"></a>38 end </span><span
+    class="inferred0"><a name="line39"></a>39 </span><span class="marked1"><a
+    name="line40"></a>40 def link_to_show(name, options = nil) </span><span
+    class="uncovered0"><a name="line41"></a>41 link_to_remote(name, {
+    </span><span class="uncovered1"><a name="line42"></a>42 :update =&gt;
+    pane_id, </span><span class="uncovered0"><a name="line43"></a>43 :method
+    =&gt; :get, </span><span class="uncovered1"><a name="line44"></a>44 :url
+    =&gt; build_url(:show), </span><span class="uncovered0"><a
+    name="line45"></a>45 }, options) </span><span class="uncovered1"><a
+    name="line46"></a>46 end </span><span class="marked0"><a
+    name="line47"></a>47 alias_method :link_to_edit_cancel, :link_to_show
+    </span><span class="inferred1"><a name="line48"></a>48 </span><span
+    class="marked0"><a name="line49"></a>49 def link_to_edit(name, options =
+    nil) </span><span class="uncovered1"><a name="line50"></a>50
+    link_to_remote(name, { </span><span class="uncovered0"><a
+    name="line51"></a>51 :update =&gt; pane_id, </span><span
+    class="uncovered1"><a name="line52"></a>52 :method =&gt; :get, </span><span
+    class="uncovered0"><a name="line53"></a>53 :url =&gt; build_url(:edit),
+    </span><span class="uncovered1"><a name="line54"></a>54 }, options)
+    </span><span class="uncovered0"><a name="line55"></a>55 end </span><span
+    class="inferred1"><a name="line56"></a>56 </span><span class="marked0"><a
+    name="line57"></a>57 def link_to_destroy(name, options = {}) </span><span
+    class="uncovered1"><a name="line58"></a>58 effect = options[:effect]
+    </span><span class="uncovered0"><a name="line59"></a>59 link_to_remote(name,
+    { </span><span class="uncovered1"><a name="line60"></a>60 :update =&gt;
+    pane_id, </span><span class="uncovered0"><a name="line61"></a>61 :method
+    =&gt; :delete, </span><span class="uncovered1"><a name="line62"></a>62 :url
+    =&gt; build_url(:destroy), </span><span class="uncovered0"><a
+    name="line63"></a>63 :success =&gt; effect </span><span
+    class="uncovered1"><a name="line64"></a>64 }, options) </span><span
+    class="uncovered0"><a name="line65"></a>65 end </span><span
+    class="inferred1"><a name="line66"></a>66 </span><span class="marked0"><a
+    name="line67"></a>67 def build_url(action) </span><span
+    class="uncovered1"><a name="line68"></a>68 nested_ajax = { </span><span
+    class="uncovered0"><a name="line69"></a>69 :foreign_key =&gt;
+    association_foreign_key || foreign_key, </span><span class="uncovered1"><a
+    name="line70"></a>70 :in_form =&gt; !form.nil?, </span><span
+    class="uncovered0"><a name="line71"></a>71 :pane_id =&gt; pane_id,
+    </span><span class="uncovered1"><a name="line72"></a>72 :form_name =&gt;
+    form_name </span><span class="uncovered0"><a name="line73"></a>73 }
+    </span><span class="uncovered1"><a name="line74"></a>74 result =
+    {:controller =&gt; controller, :action =&gt; action, :id =&gt; object.id,
+    :nested_ajax =&gt; nested_ajax} </span><span class="uncovered0"><a
+    name="line75"></a>75 yield(result) if block_given? </span><span
+    class="uncovered1"><a name="line76"></a>76 result </span><span
+    class="uncovered0"><a name="line77"></a>77 end </span><span
+    class="uncovered1"><a name="line78"></a>78 </span><span
+    class="uncovered0"><a name="line79"></a>79 end </span><span
+    class="uncovered1"><a name="line80"></a>80 end </span><span
+    class="uncovered0"><a name="line81"></a>81 end </span></pre>
     <hr />
     <p> Generated using the <a href='http://eigenclass.org/hiki.rb?rcov'> rcov
     code coverage analysis tool for Ruby </a> version 0.8.1.2. </p>

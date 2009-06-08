@@ -156,7 +156,7 @@
       C0 code coverage information
     </h3>
     <p>
-      Generated on Wed May 27 11:25:56 +0900 2009 with 
+      Generated on Mon Jun 08 16:48:50 +0900 2009 with 
       <a href='http://eigenclass.org/hiki/rcov'>
         rcov 0.8.1.2
       </a>
@@ -173,8 +173,8 @@
     class='heading'> Total lines </td> <td class='heading'> Lines of code </td>
     <td class='heading'> Total coverage </td> <td class='heading'> Code coverage
     </td> </tr> </thead> <tbody> <tr class='light'> <td> <a href='init_rb.html'>
-    init.rb </a> </td> <td class='lines_total'> <tt> 10 </tt> </td> <td
-    class='lines_code'> <tt> 8 </tt> </td> <td> <table cellspacing='0'
+    init.rb </a> </td> <td class='lines_total'> <tt> 14 </tt> </td> <td
+    class='lines_code'> <tt> 11 </tt> </td> <td> <table cellspacing='0'
     align='right' cellpadding='0'> <tr> <td> <tt class='coverage_total'> 100.0%
     </tt> &nbsp; </td> <td> <table class='percent_graph' cellspacing='0'
     width='100' cellpadding='0'> <tr> <td class='covered' width='100' /> <td
@@ -194,7 +194,11 @@
     7 </span><span class="marked0"><a name="line8"></a> 8
     ActionView::Helpers::FormBuilder.class_eval do </span><span
     class="marked1"><a name="line9"></a> 9 include NestedAjax::FormBuilder
-    </span><span class="inferred0"><a name="line10"></a>10 end </span></pre>
+    </span><span class="inferred0"><a name="line10"></a>10 end </span><span
+    class="inferred1"><a name="line11"></a>11 </span><span class="marked0"><a
+    name="line12"></a>12 ActiveRecord::Base.class_eval do </span><span
+    class="marked1"><a name="line13"></a>13 include NestedAjax::NameToDisplay
+    </span><span class="inferred0"><a name="line14"></a>14 end </span></pre>
     <hr />
     <p> Generated using the <a href='http://eigenclass.org/hiki.rb?rcov'> rcov
     code coverage analysis tool for Ruby </a> version 0.8.1.2. </p>
