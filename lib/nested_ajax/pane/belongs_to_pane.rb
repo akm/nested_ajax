@@ -22,16 +22,17 @@ module NestedAjax
           :url => new_url
         }.update(self.options[:link_to_new] || {}).update(options || {})
         base_script = remote_function(options)
+        script = <<-"EOS"
+          (function(){
+            Event.observe("#{link_id}", "click", function(event){
+              #{options[:onclick]};
+              #{base_script};
+              Event.stop(event);
+            }, true);
+          })();
+        EOS
         link_to(link_name, 'javascript:void(0)', html_options) <<
-          javascript_tag(%{
-            (function(){
-              Event.observe("#{link_id}", "click", function(event){
-                #{options[:onclick]};
-                #{base_script};
-                Event.stop(event);
-              }, true);
-            })();
-          }.split(/$/).map(&:strip).join)
+          javascript_tag(script.split(/$/).map(&:strip).join)
       end
 
       def new_url
