@@ -55,13 +55,13 @@ module NestedAjax
       end
 
       def link_to_destroy(name, options = {})
-        effect = options[:effect]
-        link_to_remote(name, {
+        url = {
             :update => pane_id,
             :method => :delete,
             :url => build_url(:destroy),
-            :success => effect
-          }, options)
+          }
+        url[:success] = options.delete(:effect) if options[:effect]
+        link_to_remote(name, url, options)
       end
       
       def build_url(action)
