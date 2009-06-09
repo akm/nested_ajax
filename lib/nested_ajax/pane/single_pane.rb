@@ -11,26 +11,21 @@ module NestedAjax
 
       def belongs_to(association_name, options = {})
         if form
-          @template.concat("<!-- before form.fields_for -->")
-          logger.debug("before form.fields_for #{form.object.inspect}")
           form.fields_for(association_name, form.object) do |f|
-            @template.concat("<!-- before in form.fields_for -->")
             pane = Pane::BelongsToPane.new(template, f, association_name,
               {:pane_id => "#{self.pane_id}_#{association_name}"}.update(options || {}))
             pane.parent = self
             yield(pane)
           end
         else
-          raise "Unsupported yet"
+          raise UsageError, "Unsupported yet"
         end
-        logger.debug("SinglePane.belongs_to form_name => #{form_name}")
       end
 
       def has_many(association_name, options = {})
         pane = Pane::HasManyPane.new(template, object, association_name, options)
         pane.parent = self
         yield(pane)
-        logger.debug("SinglePane.has_many form_name => #{form_name}")
       end
 
       def link_to_new_cancel(name, options = nil)

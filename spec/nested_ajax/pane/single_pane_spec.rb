@@ -145,4 +145,70 @@ describe NestedAjax::Pane::SinglePane, :type => :helper do
 
   end
 
+  describe "pane association" do
+    before(:each) do
+      @person = Person.create(:name => "akimatter")
+      @product = Product.create(:name => "nested_ajax")
+      @ownership = ProductMembership.new(:role_cd => '01')
+      @ownership.product = @product
+      @ownership.person = @person
+      @ownership.save!
+      @template.instance_variable_set(:@person, @person)
+      @template.instance_variable_set(:@product, @product)
+      @template.instance_variable_set(:@ownership, @ownership)
+    end
+
+    describe "belongs_to" do
+      it "default" do
+        @template.nested_ajax_pane(:ownership) do |ownership_pane|
+          ownership_pane.pane_id.should == "ownership_#{@ownership.object_id}"
+          ownership_pane.form.should == nil
+          ownership_pane.form_for(@ownership, :url => {:controller => 'product_memberships', :action => 'update', :id => @ownership.id}) do |f|
+            ownership_pane.form.should == f
+            ownership_pane.belongs_to(:person) do |pane|
+              pane.pane_id.should == "ownership_#{@ownership.object_id}_person"
+              pane.parent.should == ownership_pane
+              ""
+            end
+          end
+        end
+        @template.output_buffer.should == %{
+          <form action="
+              /product_memberships/update/#{@ownership.id}" class="edit_product_membership" id="edit_product_membership_#{@ownership.id}" method="post">
+            <div style="margin:0;padding:0">
+              <input name="_method" type="hidden" value="put" />
+            </div>
+          </form>
+        }.split(/$/).map(&:strip).join
+      end
+
+      it "without form" do
+        lambda{
+          @template.nested_ajax_pane(:ownership) do |ownership_pane|
+            ownership_pane.belongs_to(:person) do |pane|
+              ""
+            end
+          end
+        }.should raise_error(NestedAjax::UsageError)
+      end
+    end
+  
+    describe "has_many" do
+      it "default" do
+        @template.nested_ajax_pane(:product) do |product_pane|
+          product_pane.pane_id.should == "product_#{@product.object_id}"
+          product_pane.has_many(:memberships) do |pane|
+            pane.pane_id.should == "product_#{@product.object_id}"
+            pane.parent.should == product_pane
+            ""
+          end
+        end
+        @template.output_buffer.should == ""
+      end
+    end
+
+  end
+
+  
+
 end
