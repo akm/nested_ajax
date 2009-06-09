@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'nested_ajax'
 
 module NestedAjax
@@ -29,37 +30,49 @@ module NestedAjax
       #   end
       def name_for_nested_ajax(attr_name)
         define_method(:name_for_nested_ajax){|*runtime_args| send(attr_name)}
-        instance_eval %{ 
+        # ここで <<-"EOS"の代わりに、%{..}を使うとrcovが拾ってくれません...
+        instance_eval(<<-"EOS")
           def find_with_name(name, context = {})
             self.find(:all, :conditions => ["#{attr_name} like ?", "%\#{name}%"], :order => :#{attr_name})
           end
-        }
+        EOS
       end
 
       def belongs_to_with_nested_ajax(*args, &block)
         result = belongs_to_without_nested_ajax(*args.dup, &block)
-        define_name_for_nested_ajax(*args)
-        result
-      end
-
-      def has_many_with_nested_ajax(*args, &block)
-        result = has_many_without_nested_ajax(*args.dup, &block)
-        define_name_for_nested_ajax(*args)
+        define_association_name_for_nested_ajax(*args)
         result
       end
 
       def has_one_with_nested_ajax(*args, &block)
         result = has_one_without_nested_ajax(*args.dup, &block)
-        define_name_for_nested_ajax(*args)
+        define_association_name_for_nested_ajax(*args)
         result
       end
 
-      def define_name_for_nested_ajax(*args)
+      def has_many_with_nested_ajax(*args, &block)
+        result = has_many_without_nested_ajax(*args.dup, &block)
+        define_association_names_for_nested_ajax(*args)
+        result
+      end
+
+      def define_association_name_for_nested_ajax(*args)
         args.extract_options!
         args.each do |association_name|
           self.module_eval(%{
             def #{association_name}_name_for_nested_ajax
-              #{association_name}.name_for_nested_ajax if #{association_name}
+              #{association_name}.name_for_nested_ajax("#{self.name}#{association_name}") if #{association_name}
+            end
+          })
+        end
+      end
+
+      def define_association_names_for_nested_ajax(*args)
+        args.extract_options!
+        args.each do |association_name|
+          self.module_eval(%{
+            def #{association_name.to_s.singularize}_names_for_nested_ajax
+              #{association_name}.map{|obj| obj.name_for_nested_ajax("#{self.name}#{association_name}")} if #{association_name}
             end
           })
         end
