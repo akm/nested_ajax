@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'nested_ajax/pane'
 
 module NestedAjax
@@ -7,9 +8,8 @@ module NestedAjax
 
       def initialize(template, form_or_object, association_name, options = {})
         super(template, form_or_object, association_name, options)
-        logger.debug("HasManyPane.initialize @form_name => #{@form_name}")
         unless @reflection.macro == :has_many
-          raise ArgumentError, "#{association_name} of #{object.class.name} is not defined with belongs_to but #{@reflection.macro}"
+          raise ArgumentError, "#{association_name} of #{object.class.name} is not defined with has_many but #{@reflection.macro}"
         end
         @child_index = options[:child_index] || @associated_object.size
       end
@@ -48,8 +48,8 @@ module NestedAjax
           end
         }.update(options || {})
         base_script = remote_function(options)
-        link_to(link_name, 'javascript:void(0)', html_options) <<
-          javascript_tag(%{
+        # %{...}を使わないのはrcovのせいです。
+        script = <<-"EOS"
             (function(){
               var base_script = "#{base_script}";
               var child_index = #{@child_index};
@@ -61,7 +61,10 @@ module NestedAjax
                 Event.stop(event);
               }, true);
             })();
-          }.split(/$/).map(&:strip).join)
+          EOS
+        script = script.split(/$/).map(&:strip).join
+        link_to(link_name, 'javascript:void(0)', html_options) <<
+          javascript_tag(script)
       end
 
       def new_url
