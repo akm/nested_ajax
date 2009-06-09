@@ -19,7 +19,7 @@ module NestedAjax
           object_name = object.class.name.underscore
         end
         options = {
-          :form_name => params[:nested_ajax] ? params[:nested_ajax][:form_name] : nil,
+          :form_name => nested_ajax_options[:form_name],
           :object_name => object_name,
           # 現在実行中のコントローラ名をデフォルトで使用してるけど、
           :controller => self.controller_name 

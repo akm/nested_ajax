@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
 require 'nested_ajax'
 
 module NestedAjax
   module RenderExt
     def self.included(mod)
+      mod.extend(ClassMethod)
       mod.module_eval do
         alias_method_chain :render, :nested_ajax
       end
@@ -20,16 +22,15 @@ module NestedAjax
       outer_tag = [outer_tag, {}] unless outer_tag.is_a?(Array)
       inner_tag = [inner_tag, {}] unless inner_tag.is_a?(Array)
       timestamp = Time.now.to_i
-      response.template.content_tag(outer_tag.first, 
-        name_and_ids.map do |(name, id)|
+      inner_tags = name_and_ids.map do |(name, id)|
           response.template.content_tag(inner_tag.first, 
             response.template.sanitize(name) + 
             response.template.content_tag(:span, 
               response.template.sanitize(id.to_s), 
-              :id => "#{timestamp}_record_#{id}_value", :style => 'display:none;'),
-            {:id => "#{timestamp}_record_#{id}"}.update(inner_tag.last))
-        end.join,
-        outer_tag.last)
+              :style => 'display:none;'),
+            inner_tag.last)
+        end
+      response.template.content_tag(outer_tag.first, inner_tags.join, outer_tag.last)
     end
 
 
@@ -49,7 +50,13 @@ module NestedAjax
           layout = self.class.read_inheritable_attribute(:ajax_layout)
           begin
             layout ||= view_paths.find_template("layouts/#{DEFAULT_NESTED_AJAX_LAYOUT}", default_template_format)
-          rescue ActionView::MissingTemplate
+          rescue Exception => e
+            # rescue ActionView::MissingTemplate
+            # と書かないのはrcovが無視しちゃうためです。
+
+            # find_templateは見つからなかったときにActionView::MissingTemplate例外をraiseします。
+            # ここでは見つかったら使うだけなので、無視します。
+            raise e unless e.is_a?(ActionView::MissingTemplate)
           end
           layout ||= false
           options ||= {}
