@@ -156,7 +156,7 @@
       C0 code coverage information
     </h3>
     <p>
-      Generated on Mon Jun 08 16:48:50 +0900 2009 with 
+      Generated on Tue Jun 09 17:50:06 +0900 2009 with 
       <a href='http://eigenclass.org/hiki/rcov'>
         rcov 0.8.1.2
       </a>
@@ -176,14 +176,14 @@
     href='lib-nested_ajax-pane_tag_rb.html'> lib/nested_ajax/pane_tag.rb </a>
     </td> <td class='lines_total'> <tt> 27 </tt> </td> <td class='lines_code'>
     <tt> 21 </tt> </td> <td> <table cellspacing='0' align='right'
-    cellpadding='0'> <tr> <td> <tt class='coverage_total'> 37.0% </tt> &nbsp;
+    cellpadding='0'> <tr> <td> <tt class='coverage_total'> 100.0% </tt> &nbsp;
     </td> <td> <table class='percent_graph' cellspacing='0' width='100'
-    cellpadding='0'> <tr> <td class='covered' width='37' /> <td
-    class='uncovered' width='63' /> </tr> </table> </td> </tr> </table> </td>
+    cellpadding='0'> <tr> <td class='covered' width='100' /> <td
+    class='uncovered' width='0' /> </tr> </table> </td> </tr> </table> </td>
     <td> <table cellspacing='0' align='right' cellpadding='0'> <tr> <td> <tt
-    class='coverage_code'> 28.6% </tt> &nbsp; </td> <td> <table
+    class='coverage_code'> 100.0% </tt> &nbsp; </td> <td> <table
     class='percent_graph' cellspacing='0' width='100' cellpadding='0'> <tr> <td
-    class='covered' width='29' /> <td class='uncovered' width='71' /> </tr>
+    class='covered' width='100' /> <td class='uncovered' width='0' /> </tr>
     </table> </td> </tr> </table> </td> </tr> </tbody> </table><pre><span
     class="marked1"><a name="line1"></a> 1 require 'nested_ajax' </span><span
     class="inferred0"><a name="line2"></a> 2 </span><span class="marked1"><a
@@ -192,30 +192,29 @@
     name="line5"></a> 5 </span><span class="marked0"><a name="line6"></a> 6
     class &lt;&lt; self </span><span class="inferred1"><a name="line7"></a> 7
     </span><span class="marked0"><a name="line8"></a> 8 def
-    name_and_options(pane_id, options = nil) </span><span class="uncovered1"><a
-    name="line9"></a> 9 options ||= {} </span><span class="uncovered0"><a
+    name_and_options(pane_id, options = nil) </span><span class="marked1"><a
+    name="line9"></a> 9 options ||= {} </span><span class="marked0"><a
     name="line10"></a>10 html_options = HashWithIndifferentAccess.new(
-    </span><span class="uncovered1"><a name="line11"></a>11 {:tag_name =&gt;
-    :div, :id =&gt; pane_id}.update(options)) </span><span class="uncovered0"><a
+    </span><span class="inferred1"><a name="line11"></a>11 {:tag_name =&gt;
+    :div, :id =&gt; pane_id}.update(options)) </span><span class="marked0"><a
     name="line12"></a>12 html_options[:class] = 'nested_ajax ' &lt;&lt;
-    (html_options[:class] || '') </span><span class="uncovered1"><a
+    (html_options[:class] || '') </span><span class="marked1"><a
     name="line13"></a>13 tag_name = html_options.delete(:tag_name) </span><span
-    class="uncovered0"><a name="line14"></a>14 return tag_name, html_options
-    </span><span class="uncovered1"><a name="line15"></a>15 end </span><span
+    class="marked0"><a name="line14"></a>14 return tag_name, html_options
+    </span><span class="inferred1"><a name="line15"></a>15 end </span><span
     class="inferred0"><a name="line16"></a>16 </span><span class="marked1"><a
     name="line17"></a>17 def render(template, pane_id, options) </span><span
-    class="uncovered0"><a name="line18"></a>18 tag_name, options =
-    name_and_options(pane_id, options) </span><span class="uncovered1"><a
+    class="marked0"><a name="line18"></a>18 tag_name, options =
+    name_and_options(pane_id, options) </span><span class="marked1"><a
     name="line19"></a>19 template.concat(template.tag(tag_name, options, true))
-    </span><span class="uncovered0"><a name="line20"></a>20 yield if
-    block_given? </span><span class="uncovered1"><a name="line21"></a>21
+    </span><span class="marked0"><a name="line20"></a>20 yield if block_given?
+    </span><span class="marked1"><a name="line21"></a>21
     template.concat(&quot;&lt;/#{tag_name}&gt;&quot;) </span><span
-    class="uncovered0"><a name="line22"></a>22 end </span><span
-    class="uncovered1"><a name="line23"></a>23 </span><span
-    class="uncovered0"><a name="line24"></a>24 end </span><span
-    class="uncovered1"><a name="line25"></a>25 </span><span
-    class="uncovered0"><a name="line26"></a>26 end </span><span
-    class="uncovered1"><a name="line27"></a>27 end </span></pre>
+    class="inferred0"><a name="line22"></a>22 end </span><span
+    class="inferred1"><a name="line23"></a>23 </span><span class="inferred0"><a
+    name="line24"></a>24 end </span><span class="inferred1"><a
+    name="line25"></a>25 </span><span class="inferred0"><a name="line26"></a>26
+    end </span><span class="inferred1"><a name="line27"></a>27 end </span></pre>
     <hr />
     <p> Generated using the <a href='http://eigenclass.org/hiki.rb?rcov'> rcov
     code coverage analysis tool for Ruby </a> version 0.8.1.2. </p>

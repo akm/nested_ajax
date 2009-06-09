@@ -156,7 +156,7 @@
       C0 code coverage information
     </h3>
     <p>
-      Generated on Mon Jun 08 16:48:50 +0900 2009 with 
+      Generated on Tue Jun 09 17:50:05 +0900 2009 with 
       <a href='http://eigenclass.org/hiki/rcov'>
         rcov 0.8.1.2
       </a>
@@ -175,101 +175,119 @@
     </td> </tr> </thead> <tbody> <tr class='light'> <td> <a
     href='lib-nested_ajax-name_to_display_rb.html'>
     lib/nested_ajax/name_to_display.rb </a> </td> <td class='lines_total'> <tt>
-    70 </tt> </td> <td class='lines_code'> <tt> 50 </tt> </td> <td> <table
+    83 </tt> </td> <td class='lines_code'> <tt> 59 </tt> </td> <td> <table
     cellspacing='0' align='right' cellpadding='0'> <tr> <td> <tt
-    class='coverage_total'> 54.3% </tt> &nbsp; </td> <td> <table
+    class='coverage_total'> 100.0% </tt> &nbsp; </td> <td> <table
     class='percent_graph' cellspacing='0' width='100' cellpadding='0'> <tr> <td
-    class='covered' width='54' /> <td class='uncovered' width='46' /> </tr>
+    class='covered' width='100' /> <td class='uncovered' width='0' /> </tr>
     </table> </td> </tr> </table> </td> <td> <table cellspacing='0'
-    align='right' cellpadding='0'> <tr> <td> <tt class='coverage_code'> 40.0%
+    align='right' cellpadding='0'> <tr> <td> <tt class='coverage_code'> 100.0%
     </tt> &nbsp; </td> <td> <table class='percent_graph' cellspacing='0'
-    width='100' cellpadding='0'> <tr> <td class='covered' width='40' /> <td
-    class='uncovered' width='60' /> </tr> </table> </td> </tr> </table> </td>
-    </tr> </tbody> </table><pre><span class="marked0"><a name="line1"></a> 1
-    require 'nested_ajax' </span><span class="inferred1"><a name="line2"></a> 2
-    </span><span class="marked0"><a name="line3"></a> 3 module NestedAjax
-    </span><span class="marked1"><a name="line4"></a> 4 module NameToDisplay
-    </span><span class="marked0"><a name="line5"></a> 5 def self.included(base)
-    </span><span class="marked1"><a name="line6"></a> 6
-    base.extend(ClassMethods) </span><span class="marked0"><a name="line7"></a>
-    7 base.instance_eval do </span><span class="marked1"><a name="line8"></a> 8
+    width='100' cellpadding='0'> <tr> <td class='covered' width='100' /> <td
+    class='uncovered' width='0' /> </tr> </table> </td> </tr> </table> </td>
+    </tr> </tbody> </table><pre><span class="inferred0"><a name="line1"></a> 1 #
+    -*- coding: utf-8 -*- </span><span class="marked1"><a name="line2"></a> 2
+    require 'nested_ajax' </span><span class="inferred0"><a name="line3"></a> 3
+    </span><span class="marked1"><a name="line4"></a> 4 module NestedAjax
+    </span><span class="marked0"><a name="line5"></a> 5 module NameToDisplay
+    </span><span class="marked1"><a name="line6"></a> 6 def self.included(base)
+    </span><span class="marked0"><a name="line7"></a> 7
+    base.extend(ClassMethods) </span><span class="marked1"><a name="line8"></a>
+    8 base.instance_eval do </span><span class="marked0"><a name="line9"></a> 9
     alias :belongs_to_without_nested_ajax :belongs_to </span><span
-    class="marked0"><a name="line9"></a> 9 alias :belongs_to
-    :belongs_to_with_nested_ajax </span><span class="inferred1"><a
-    name="line10"></a>10 </span><span class="marked0"><a name="line11"></a>11
+    class="marked1"><a name="line10"></a>10 alias :belongs_to
+    :belongs_to_with_nested_ajax </span><span class="inferred0"><a
+    name="line11"></a>11 </span><span class="marked1"><a name="line12"></a>12
     alias :has_many_without_nested_ajax :has_many </span><span
-    class="marked1"><a name="line12"></a>12 alias :has_many
-    :has_many_with_nested_ajax </span><span class="inferred0"><a
-    name="line13"></a>13 </span><span class="marked1"><a name="line14"></a>14
-    alias :has_one_without_nested_ajax :has_one </span><span class="marked0"><a
-    name="line15"></a>15 alias :has_one :has_one_with_nested_ajax </span><span
-    class="inferred1"><a name="line16"></a>16 end </span><span
+    class="marked0"><a name="line13"></a>13 alias :has_many
+    :has_many_with_nested_ajax </span><span class="inferred1"><a
+    name="line14"></a>14 </span><span class="marked0"><a name="line15"></a>15
+    alias :has_one_without_nested_ajax :has_one </span><span class="marked1"><a
+    name="line16"></a>16 alias :has_one :has_one_with_nested_ajax </span><span
     class="inferred0"><a name="line17"></a>17 end </span><span
-    class="inferred1"><a name="line18"></a>18 </span><span class="marked0"><a
-    name="line19"></a>19 module ClassMethods </span><span class="inferred1"><a
-    name="line20"></a>20 # If you want to use complex find or name for
-    nested_ajax, </span><span class="inferred0"><a name="line21"></a>21 # define
-    an instance method </span><span class="inferred1"><a name="line22"></a>22 #
-    def name_for_nested_ajax(context = {}) </span><span class="inferred0"><a
-    name="line23"></a>23 # # return &quot;name of record for nested_ajax&quot;
-    </span><span class="inferred1"><a name="line24"></a>24 # end </span><span
-    class="inferred0"><a name="line25"></a>25 # </span><span
-    class="inferred1"><a name="line26"></a>26 # and define an class method
-    </span><span class="inferred0"><a name="line27"></a>27 # def
-    self.find_with_name(name, context = {}) </span><span class="inferred1"><a
-    name="line28"></a>28 # # return [record1, record2] </span><span
-    class="inferred0"><a name="line29"></a>29 # end </span><span
-    class="marked1"><a name="line30"></a>30 def name_for_nested_ajax(attr_name)
-    </span><span class="uncovered0"><a name="line31"></a>31
+    class="inferred1"><a name="line18"></a>18 end </span><span
+    class="inferred0"><a name="line19"></a>19 </span><span class="marked1"><a
+    name="line20"></a>20 module ClassMethods </span><span class="inferred0"><a
+    name="line21"></a>21 # If you want to use complex find or name for
+    nested_ajax, </span><span class="inferred1"><a name="line22"></a>22 # define
+    an instance method </span><span class="inferred0"><a name="line23"></a>23 #
+    def name_for_nested_ajax(context = {}) </span><span class="inferred1"><a
+    name="line24"></a>24 # # return &quot;name of record for nested_ajax&quot;
+    </span><span class="inferred0"><a name="line25"></a>25 # end </span><span
+    class="inferred1"><a name="line26"></a>26 # </span><span
+    class="inferred0"><a name="line27"></a>27 # and define an class method
+    </span><span class="inferred1"><a name="line28"></a>28 # def
+    self.find_with_name(name, context = {}) </span><span class="inferred0"><a
+    name="line29"></a>29 # # return [record1, record2] </span><span
+    class="inferred1"><a name="line30"></a>30 # end </span><span
+    class="marked0"><a name="line31"></a>31 def name_for_nested_ajax(attr_name)
+    </span><span class="marked1"><a name="line32"></a>32
     define_method(:name_for_nested_ajax){|*runtime_args| send(attr_name)}
-    </span><span class="uncovered1"><a name="line32"></a>32 instance_eval %{
-    </span><span class="uncovered0"><a name="line33"></a>33 def
-    find_with_name(name, context = {}) </span><span class="uncovered1"><a
-    name="line34"></a>34 self.find(:all, :conditions =&gt; [&quot;#{attr_name}
-    like ?&quot;, &quot;%\#{name}%&quot;], :order =&gt; :#{attr_name})
-    </span><span class="uncovered0"><a name="line35"></a>35 end </span><span
-    class="uncovered1"><a name="line36"></a>36 } </span><span
-    class="uncovered0"><a name="line37"></a>37 end </span><span
-    class="inferred1"><a name="line38"></a>38 </span><span class="marked0"><a
-    name="line39"></a>39 def belongs_to_with_nested_ajax(*args, &amp;block)
-    </span><span class="uncovered1"><a name="line40"></a>40 result =
+    </span><span class="inferred0"><a name="line33"></a>33 # ここで
+    &lt;&lt;-&quot;EOS&quot;の代わりに、%{..}を使うとrcovが拾って�
+    �れません... </span><span class="marked1"><a name="line34"></a>34
+    instance_eval(&lt;&lt;-&quot;EOS&quot;) </span><span class="inferred0"><a
+    name="line35"></a>35 def find_with_name(name, context = {}) </span><span
+    class="inferred1"><a name="line36"></a>36 self.find(:all, :conditions =&gt;
+    [&quot;#{attr_name} like ?&quot;, &quot;%\#{name}%&quot;], :order =&gt;
+    :#{attr_name}) </span><span class="inferred0"><a name="line37"></a>37 end
+    </span><span class="inferred1"><a name="line38"></a>38 EOS </span><span
+    class="inferred0"><a name="line39"></a>39 end </span><span
+    class="inferred1"><a name="line40"></a>40 </span><span class="marked0"><a
+    name="line41"></a>41 def belongs_to_with_nested_ajax(*args, &amp;block)
+    </span><span class="marked1"><a name="line42"></a>42 result =
     belongs_to_without_nested_ajax(*args.dup, &amp;block) </span><span
-    class="uncovered0"><a name="line41"></a>41
-    define_name_for_nested_ajax(*args) </span><span class="uncovered1"><a
-    name="line42"></a>42 result </span><span class="uncovered0"><a
-    name="line43"></a>43 end </span><span class="inferred1"><a
-    name="line44"></a>44 </span><span class="marked0"><a name="line45"></a>45
-    def has_many_with_nested_ajax(*args, &amp;block) </span><span
-    class="uncovered1"><a name="line46"></a>46 result =
-    has_many_without_nested_ajax(*args.dup, &amp;block) </span><span
-    class="uncovered0"><a name="line47"></a>47
-    define_name_for_nested_ajax(*args) </span><span class="uncovered1"><a
-    name="line48"></a>48 result </span><span class="uncovered0"><a
-    name="line49"></a>49 end </span><span class="inferred1"><a
-    name="line50"></a>50 </span><span class="marked0"><a name="line51"></a>51
-    def has_one_with_nested_ajax(*args, &amp;block) </span><span
-    class="uncovered1"><a name="line52"></a>52 result =
+    class="marked0"><a name="line43"></a>43
+    define_association_name_for_nested_ajax(*args) </span><span
+    class="marked1"><a name="line44"></a>44 result </span><span
+    class="inferred0"><a name="line45"></a>45 end </span><span
+    class="inferred1"><a name="line46"></a>46 </span><span class="marked0"><a
+    name="line47"></a>47 def has_one_with_nested_ajax(*args, &amp;block)
+    </span><span class="marked1"><a name="line48"></a>48 result =
     has_one_without_nested_ajax(*args.dup, &amp;block) </span><span
-    class="uncovered0"><a name="line53"></a>53
-    define_name_for_nested_ajax(*args) </span><span class="uncovered1"><a
-    name="line54"></a>54 result </span><span class="uncovered0"><a
-    name="line55"></a>55 end </span><span class="inferred1"><a
-    name="line56"></a>56 </span><span class="marked0"><a name="line57"></a>57
-    def define_name_for_nested_ajax(*args) </span><span class="uncovered1"><a
-    name="line58"></a>58 args.extract_options! </span><span
-    class="uncovered0"><a name="line59"></a>59 args.each do |association_name|
-    </span><span class="uncovered1"><a name="line60"></a>60 self.module_eval(%{
-    </span><span class="uncovered0"><a name="line61"></a>61 def
-    #{association_name}_name_for_nested_ajax </span><span class="uncovered1"><a
-    name="line62"></a>62 #{association_name}.name_for_nested_ajax if
-    #{association_name} </span><span class="uncovered0"><a name="line63"></a>63
-    end </span><span class="uncovered1"><a name="line64"></a>64 }) </span><span
-    class="uncovered0"><a name="line65"></a>65 end </span><span
-    class="uncovered1"><a name="line66"></a>66 end </span><span
-    class="uncovered0"><a name="line67"></a>67 end </span><span
-    class="uncovered1"><a name="line68"></a>68 </span><span
-    class="uncovered0"><a name="line69"></a>69 end </span><span
-    class="uncovered1"><a name="line70"></a>70 end </span></pre>
+    class="marked0"><a name="line49"></a>49
+    define_association_name_for_nested_ajax(*args) </span><span
+    class="marked1"><a name="line50"></a>50 result </span><span
+    class="inferred0"><a name="line51"></a>51 end </span><span
+    class="inferred1"><a name="line52"></a>52 </span><span class="marked0"><a
+    name="line53"></a>53 def has_many_with_nested_ajax(*args, &amp;block)
+    </span><span class="marked1"><a name="line54"></a>54 result =
+    has_many_without_nested_ajax(*args.dup, &amp;block) </span><span
+    class="marked0"><a name="line55"></a>55
+    define_association_names_for_nested_ajax(*args) </span><span
+    class="marked1"><a name="line56"></a>56 result </span><span
+    class="inferred0"><a name="line57"></a>57 end </span><span
+    class="inferred1"><a name="line58"></a>58 </span><span class="marked0"><a
+    name="line59"></a>59 def define_association_name_for_nested_ajax(*args)
+    </span><span class="marked1"><a name="line60"></a>60 args.extract_options!
+    </span><span class="marked0"><a name="line61"></a>61 args.each do
+    |association_name| </span><span class="marked1"><a name="line62"></a>62
+    self.module_eval(%{ </span><span class="inferred0"><a name="line63"></a>63
+    def #{association_name}_name_for_nested_ajax </span><span
+    class="inferred1"><a name="line64"></a>64
+    #{association_name}.name_for_nested_ajax(&quot;#{self.name}#{association_nam
+    }&quot;) if #{association_name} </span><span class="inferred0"><a
+    name="line65"></a>65 end </span><span class="inferred1"><a
+    name="line66"></a>66 }) </span><span class="inferred0"><a
+    name="line67"></a>67 end </span><span class="inferred1"><a
+    name="line68"></a>68 end </span><span class="inferred0"><a
+    name="line69"></a>69 </span><span class="marked1"><a name="line70"></a>70
+    def define_association_names_for_nested_ajax(*args) </span><span
+    class="marked0"><a name="line71"></a>71 args.extract_options! </span><span
+    class="marked1"><a name="line72"></a>72 args.each do |association_name|
+    </span><span class="marked0"><a name="line73"></a>73 self.module_eval(%{
+    </span><span class="marked1"><a name="line74"></a>74 def
+    #{association_name.to_s.singularize}_names_for_nested_ajax </span><span
+    class="inferred0"><a name="line75"></a>75 #{association_name}.map{|obj|
+    obj.name_for_nested_ajax(&quot;#{self.name}#{association_name}&quot;)} if
+    #{association_name} </span><span class="inferred1"><a name="line76"></a>76
+    end </span><span class="inferred0"><a name="line77"></a>77 }) </span><span
+    class="inferred1"><a name="line78"></a>78 end </span><span
+    class="inferred0"><a name="line79"></a>79 end </span><span
+    class="inferred1"><a name="line80"></a>80 end </span><span
+    class="inferred0"><a name="line81"></a>81 </span><span class="inferred1"><a
+    name="line82"></a>82 end </span><span class="inferred0"><a
+    name="line83"></a>83 end </span></pre>
     <hr />
     <p> Generated using the <a href='http://eigenclass.org/hiki.rb?rcov'> rcov
     code coverage analysis tool for Ruby </a> version 0.8.1.2. </p>

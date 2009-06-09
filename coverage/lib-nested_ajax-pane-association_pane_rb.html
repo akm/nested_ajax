@@ -156,7 +156,7 @@
       C0 code coverage information
     </h3>
     <p>
-      Generated on Mon Jun 08 16:48:50 +0900 2009 with 
+      Generated on Tue Jun 09 17:50:06 +0900 2009 with 
       <a href='http://eigenclass.org/hiki/rcov'>
         rcov 0.8.1.2
       </a>
@@ -177,70 +177,69 @@
     lib/nested_ajax/pane/association_pane.rb </a> </td> <td class='lines_total'>
     <tt> 45 </tt> </td> <td class='lines_code'> <tt> 33 </tt> </td> <td> <table
     cellspacing='0' align='right' cellpadding='0'> <tr> <td> <tt
-    class='coverage_total'> 51.1% </tt> &nbsp; </td> <td> <table
+    class='coverage_total'> 91.1% </tt> &nbsp; </td> <td> <table
     class='percent_graph' cellspacing='0' width='100' cellpadding='0'> <tr> <td
-    class='covered' width='51' /> <td class='uncovered' width='49' /> </tr>
+    class='covered' width='91' /> <td class='uncovered' width='9' /> </tr>
     </table> </td> </tr> </table> </td> <td> <table cellspacing='0'
-    align='right' cellpadding='0'> <tr> <td> <tt class='coverage_code'> 36.4%
+    align='right' cellpadding='0'> <tr> <td> <tt class='coverage_code'> 87.9%
     </tt> &nbsp; </td> <td> <table class='percent_graph' cellspacing='0'
-    width='100' cellpadding='0'> <tr> <td class='covered' width='36' /> <td
-    class='uncovered' width='64' /> </tr> </table> </td> </tr> </table> </td>
-    </tr> </tbody> </table><pre><span class="marked1"><a name="line1"></a> 1
-    require 'nested_ajax/pane' </span><span class="inferred0"><a
-    name="line2"></a> 2 </span><span class="marked1"><a name="line3"></a> 3
-    module NestedAjax </span><span class="marked0"><a name="line4"></a> 4 module
-    Pane </span><span class="marked1"><a name="line5"></a> 5 class
-    AssociationPane &lt; AbstractPane </span><span class="marked0"><a
+    width='100' cellpadding='0'> <tr> <td class='covered' width='88' /> <td
+    class='uncovered' width='12' /> </tr> </table> </td> </tr> </table> </td>
+    </tr> </tbody> </table><pre><span class="marked0"><a name="line1"></a> 1
+    require 'nested_ajax/pane' </span><span class="inferred1"><a
+    name="line2"></a> 2 </span><span class="marked0"><a name="line3"></a> 3
+    module NestedAjax </span><span class="marked1"><a name="line4"></a> 4 module
+    Pane </span><span class="marked0"><a name="line5"></a> 5 class
+    AssociationPane &lt; AbstractPane </span><span class="marked1"><a
     name="line6"></a> 6 attr_accessor :association_name </span><span
-    class="inferred1"><a name="line7"></a> 7 </span><span class="marked0"><a
+    class="inferred0"><a name="line7"></a> 7 </span><span class="marked1"><a
     name="line8"></a> 8 def initialize(template, form_or_object,
-    association_name, options = {}) </span><span class="uncovered1"><a
+    association_name, options = {}) </span><span class="marked0"><a
     name="line9"></a> 9 super(template, form_or_object, options) </span><span
-    class="uncovered0"><a name="line10"></a>10 @reflection =
-    object.class.reflections[association_name] </span><span
-    class="uncovered1"><a name="line11"></a>11 raise ArgumentError,
-    &quot;association not found - #{association_name} for
-    #{object.class.name}&quot; unless @reflection </span><span
-    class="uncovered0"><a name="line12"></a>12 @association_name =
-    association_name </span><span class="uncovered1"><a name="line13"></a>13
+    class="marked1"><a name="line10"></a>10 @reflection =
+    object.class.reflections[association_name] </span><span class="marked0"><a
+    name="line11"></a>11 raise ArgumentError, &quot;association not found -
+    #{association_name} for #{object.class.name}&quot; unless @reflection
+    </span><span class="marked1"><a name="line12"></a>12 @association_name =
+    association_name </span><span class="marked0"><a name="line13"></a>13
     @associated_object = @object.send(@association_name) </span><span
-    class="uncovered0"><a name="line14"></a>14 @controller ||= @association_name
-    </span><span class="uncovered1"><a name="line15"></a>15 end </span><span
-    class="inferred0"><a name="line16"></a>16 </span><span class="marked1"><a
-    name="line17"></a>17 def pane_id </span><span class="uncovered0"><a
+    class="marked1"><a name="line14"></a>14 @controller ||= @association_name
+    </span><span class="inferred0"><a name="line15"></a>15 end </span><span
+    class="inferred1"><a name="line16"></a>16 </span><span class="marked0"><a
+    name="line17"></a>17 def pane_id </span><span class="marked1"><a
     name="line18"></a>18 @pane_id ||= (options[:pane_id] ||
     &quot;#{object_name}_#{object.object_id}_#{association_name}&quot;)
-    </span><span class="uncovered1"><a name="line19"></a>19 end </span><span
-    class="inferred0"><a name="line20"></a>20 </span><span class="marked1"><a
-    name="line21"></a>21 def base_form_name </span><span class="uncovered0"><a
+    </span><span class="inferred0"><a name="line19"></a>19 end </span><span
+    class="inferred1"><a name="line20"></a>20 </span><span class="marked0"><a
+    name="line21"></a>21 def base_form_name </span><span class="uncovered1"><a
     name="line22"></a>22 @base_form_name ||=
     &quot;#{object_name}[#{association_name}_attributes]&quot; </span><span
-    class="uncovered1"><a name="line23"></a>23 end </span><span
-    class="inferred0"><a name="line24"></a>24 </span><span class="marked1"><a
-    name="line25"></a>25 private </span><span class="inferred0"><a
-    name="line26"></a>26 </span><span class="marked1"><a name="line27"></a>27
-    def form_name_with_parent </span><span class="uncovered0"><a
-    name="line28"></a>28 parent ? </span><span class="uncovered1"><a
+    class="uncovered0"><a name="line23"></a>23 end </span><span
+    class="inferred1"><a name="line24"></a>24 </span><span class="marked0"><a
+    name="line25"></a>25 private </span><span class="inferred1"><a
+    name="line26"></a>26 </span><span class="marked0"><a name="line27"></a>27
+    def form_name_with_parent </span><span class="marked1"><a
+    name="line28"></a>28 parent ? </span><span class="marked0"><a
     name="line29"></a>29
     &quot;#{parent.form_name}[#{association_name}_attributes]&quot; :
-    </span><span class="uncovered0"><a name="line30"></a>30
+    </span><span class="uncovered1"><a name="line30"></a>30
     &quot;#{object_name}[#{association_name}_attributes]&quot; </span><span
-    class="uncovered1"><a name="line31"></a>31 end </span><span
-    class="inferred0"><a name="line32"></a>32 </span><span class="inferred1"><a
-    name="line33"></a>33 </span><span class="inferred0"><a name="line34"></a>34
-    </span><span class="marked1"><a name="line35"></a>35 public </span><span
-    class="inferred0"><a name="line36"></a>36 </span><span class="inferred1"><a
-    name="line37"></a>37 # </span><span class="marked0"><a name="line38"></a>38
-    def association_foreign_key </span><span class="uncovered1"><a
+    class="uncovered0"><a name="line31"></a>31 end </span><span
+    class="inferred1"><a name="line32"></a>32 </span><span class="inferred0"><a
+    name="line33"></a>33 </span><span class="inferred1"><a name="line34"></a>34
+    </span><span class="marked0"><a name="line35"></a>35 public </span><span
+    class="inferred1"><a name="line36"></a>36 </span><span class="inferred0"><a
+    name="line37"></a>37 # </span><span class="marked1"><a name="line38"></a>38
+    def association_foreign_key </span><span class="marked0"><a
     name="line39"></a>39 reflection =
     object.class.reflections[association_name.to_sym] </span><span
-    class="uncovered0"><a name="line40"></a>40 reflection.macro == :belongs_to ?
+    class="marked1"><a name="line40"></a>40 reflection.macro == :belongs_to ?
     reflection.association_foreign_key : reflection.primary_key_name
-    </span><span class="uncovered1"><a name="line41"></a>41 end </span><span
-    class="uncovered0"><a name="line42"></a>42 </span><span
-    class="uncovered1"><a name="line43"></a>43 end </span><span
-    class="uncovered0"><a name="line44"></a>44 end </span><span
-    class="uncovered1"><a name="line45"></a>45 end </span></pre>
+    </span><span class="inferred0"><a name="line41"></a>41 end </span><span
+    class="inferred1"><a name="line42"></a>42 </span><span class="inferred0"><a
+    name="line43"></a>43 end </span><span class="inferred1"><a
+    name="line44"></a>44 end </span><span class="inferred0"><a
+    name="line45"></a>45 end </span></pre>
     <hr />
     <p> Generated using the <a href='http://eigenclass.org/hiki.rb?rcov'> rcov
     code coverage analysis tool for Ruby </a> version 0.8.1.2. </p>

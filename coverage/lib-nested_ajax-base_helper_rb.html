@@ -156,7 +156,7 @@
       C0 code coverage information
     </h3>
     <p>
-      Generated on Mon Jun 08 16:48:50 +0900 2009 with 
+      Generated on Tue Jun 09 17:50:05 +0900 2009 with 
       <a href='http://eigenclass.org/hiki/rcov'>
         rcov 0.8.1.2
       </a>
@@ -174,16 +174,16 @@
     <td class='heading'> Total coverage </td> <td class='heading'> Code coverage
     </td> </tr> </thead> <tbody> <tr class='light'> <td> <a
     href='lib-nested_ajax-base_helper_rb.html'> lib/nested_ajax/base_helper.rb
-    </a> </td> <td class='lines_total'> <tt> 76 </tt> </td> <td
-    class='lines_code'> <tt> 59 </tt> </td> <td> <table cellspacing='0'
-    align='right' cellpadding='0'> <tr> <td> <tt class='coverage_total'> 31.6%
+    </a> </td> <td class='lines_total'> <tt> 80 </tt> </td> <td
+    class='lines_code'> <tt> 63 </tt> </td> <td> <table cellspacing='0'
+    align='right' cellpadding='0'> <tr> <td> <tt class='coverage_total'> 100.0%
     </tt> &nbsp; </td> <td> <table class='percent_graph' cellspacing='0'
-    width='100' cellpadding='0'> <tr> <td class='covered' width='32' /> <td
-    class='uncovered' width='68' /> </tr> </table> </td> </tr> </table> </td>
+    width='100' cellpadding='0'> <tr> <td class='covered' width='100' /> <td
+    class='uncovered' width='0' /> </tr> </table> </td> </tr> </table> </td>
     <td> <table cellspacing='0' align='right' cellpadding='0'> <tr> <td> <tt
-    class='coverage_code'> 22.0% </tt> &nbsp; </td> <td> <table
+    class='coverage_code'> 100.0% </tt> &nbsp; </td> <td> <table
     class='percent_graph' cellspacing='0' width='100' cellpadding='0'> <tr> <td
-    class='covered' width='22' /> <td class='uncovered' width='78' /> </tr>
+    class='covered' width='100' /> <td class='uncovered' width='0' /> </tr>
     </table> </td> </tr> </table> </td> </tr> </tbody> </table><pre><span
     class="inferred0"><a name="line1"></a> 1 # -*- coding: utf-8 -*-
     </span><span class="marked1"><a name="line2"></a> 2 require 'nested_ajax'
@@ -192,56 +192,54 @@
     class="marked0"><a name="line5"></a> 5 module BaseHelper </span><span
     class="inferred1"><a name="line6"></a> 6 </span><span class="marked0"><a
     name="line7"></a> 7 def nested_ajax_pane(object_or_object_name = nil,
-    options = {}, &amp;block) </span><span class="uncovered1"><a
-    name="line8"></a> 8 pane = eval(&quot;cascading_nested_ajax_pane ||=
-    nil&quot;, Proc.new(&amp;block).binding) </span><span class="uncovered0"><a
+    options = {}, &amp;block) </span><span class="marked1"><a name="line8"></a>
+    8 pane = eval(&quot;cascading_nested_ajax_pane ||= nil&quot;,
+    Proc.new(&amp;block).binding) </span><span class="inferred0"><a
     name="line9"></a> 9 #
     NestedAjax::Pane::AbstractPane.renderで描画されているブロック中
-    ��らば </span><span class="uncovered1"><a name="line10"></a>10 #
+    ��らば </span><span class="inferred1"><a name="line10"></a>10 #
     ローカル変数 cascading_nested_ajax_pane
     にPaneが設定されているはずです。 </span><span
-    class="uncovered0"><a name="line11"></a>11 #
+    class="inferred0"><a name="line11"></a>11 #
     もしそれがなかったらここで用意します。 </span><span
-    class="uncovered1"><a name="line12"></a>12 unless pane </span><span
-    class="uncovered0"><a name="line13"></a>13 object, object_name = nil, nil
-    </span><span class="uncovered1"><a name="line14"></a>14 if
+    class="marked1"><a name="line12"></a>12 unless pane </span><span
+    class="marked0"><a name="line13"></a>13 object, object_name = nil, nil
+    </span><span class="marked1"><a name="line14"></a>14 if
     object_or_object_name.is_a?(String) || object_or_object_name.is_a?(Symbol)
-    </span><span class="uncovered0"><a name="line15"></a>15 object_name =
-    object_or_object_name </span><span class="uncovered1"><a
-    name="line16"></a>16 object =
-    self.instance_variable_get(&quot;@#{object_name}&quot;) </span><span
-    class="uncovered0"><a name="line17"></a>17 else </span><span
-    class="uncovered1"><a name="line18"></a>18 object = object_or_object_name
-    </span><span class="uncovered0"><a name="line19"></a>19 object_name =
-    object.class.name.underscore </span><span class="uncovered1"><a
-    name="line20"></a>20 end </span><span class="uncovered0"><a
-    name="line21"></a>21 options = { </span><span class="uncovered1"><a
-    name="line22"></a>22 :form_name =&gt; params[:nested_ajax] ?
-    params[:nested_ajax][:form_name] : nil, </span><span class="uncovered0"><a
-    name="line23"></a>23 :object_name =&gt; object_name, </span><span
-    class="uncovered1"><a name="line24"></a>24 #
+    </span><span class="marked0"><a name="line15"></a>15 object_name =
+    object_or_object_name </span><span class="marked1"><a name="line16"></a>16
+    object = self.instance_variable_get(&quot;@#{object_name}&quot;)
+    </span><span class="inferred0"><a name="line17"></a>17 else </span><span
+    class="marked1"><a name="line18"></a>18 object = object_or_object_name
+    </span><span class="marked0"><a name="line19"></a>19 object_name =
+    object.class.name.underscore </span><span class="inferred1"><a
+    name="line20"></a>20 end </span><span class="marked0"><a
+    name="line21"></a>21 options = { </span><span class="marked1"><a
+    name="line22"></a>22 :form_name =&gt; nested_ajax_options[:form_name],
+    </span><span class="inferred0"><a name="line23"></a>23 :object_name =&gt;
+    object_name, </span><span class="inferred1"><a name="line24"></a>24 #
     現在実行中のコントローラ名をデフォルトで使用してる�
-    �ど、 </span><span class="uncovered0"><a name="line25"></a>25 :controller
-    =&gt; self.controller_name </span><span class="uncovered1"><a
+    �ど、 </span><span class="marked0"><a name="line25"></a>25 :controller
+    =&gt; self.controller_name </span><span class="inferred1"><a
     name="line26"></a>26 # :controller =&gt; object_name.to_s.singularize #
-    の方がいいかな？うーん微妙 </span><span class="uncovered0"><a
-    name="line27"></a>27 } </span><span class="uncovered1"><a
-    name="line28"></a>28 logger.debug(&quot;nested_ajax_pane options =&gt;
-    #{options.inspect}&quot;) </span><span class="uncovered0"><a
-    name="line29"></a>29 options.update(options || {}) </span><span
-    class="uncovered1"><a name="line30"></a>30 pane = Pane::SinglePane.new(self,
-    object, options) </span><span class="uncovered0"><a name="line31"></a>31 end
-    </span><span class="uncovered1"><a name="line32"></a>32 yield(pane) if
-    block_given? </span><span class="uncovered0"><a name="line33"></a>33 end
-    </span><span class="inferred1"><a name="line34"></a>34 </span><span
-    class="marked0"><a name="line35"></a>35 def nested_ajax_options </span><span
-    class="uncovered1"><a name="line36"></a>36 @nested_ajax_options ||=
-    params[:nested_ajax] || HashWithIndifferentAccess.new </span><span
-    class="uncovered0"><a name="line37"></a>37 end </span><span
-    class="inferred1"><a name="line38"></a>38 </span><span class="inferred0"><a
-    name="line39"></a>39 </span><span class="inferred1"><a name="line40"></a>40
-    </span><span class="marked0"><a name="line41"></a>41 FLASH_MESSAGE_COLORS =
-    { </span><span class="inferred1"><a name="line42"></a>42 :notice =&gt;
+    の方がいいかな？うーん微妙 </span><span class="inferred0"><a
+    name="line27"></a>27 } </span><span class="marked1"><a name="line28"></a>28
+    logger.debug(&quot;nested_ajax_pane options =&gt; #{options.inspect}&quot;)
+    </span><span class="marked0"><a name="line29"></a>29 options.update(options
+    || {}) </span><span class="marked1"><a name="line30"></a>30 pane =
+    Pane::SinglePane.new(self, object, options) </span><span
+    class="inferred0"><a name="line31"></a>31 end </span><span
+    class="marked1"><a name="line32"></a>32 yield(pane) if block_given?
+    </span><span class="inferred0"><a name="line33"></a>33 end </span><span
+    class="inferred1"><a name="line34"></a>34 </span><span class="marked0"><a
+    name="line35"></a>35 def nested_ajax_options </span><span class="marked1"><a
+    name="line36"></a>36 @nested_ajax_options ||= params[:nested_ajax] ||
+    HashWithIndifferentAccess.new </span><span class="inferred0"><a
+    name="line37"></a>37 end </span><span class="inferred1"><a
+    name="line38"></a>38 </span><span class="inferred0"><a name="line39"></a>39
+    </span><span class="inferred1"><a name="line40"></a>40 </span><span
+    class="marked0"><a name="line41"></a>41 FLASH_MESSAGE_COLORS = {
+    </span><span class="inferred1"><a name="line42"></a>42 :notice =&gt;
     'green', </span><span class="inferred0"><a name="line43"></a>43 :warn =&gt;
     '#FF8C00', </span><span class="inferred1"><a name="line44"></a>44 :error
     =&gt; 'red', </span><span class="inferred0"><a name="line45"></a>45 }
@@ -251,40 +249,43 @@
     name="line48"></a>48 </span><span class="inferred0"><a name="line49"></a>49
     # flashのメッセージを表示するための領域を出力します。
     </span><span class="marked1"><a name="line50"></a>50 def
-    flash_message_for(key, options = {}) </span><span class="uncovered0"><a
-    name="line51"></a>51 tag_name = options.delete(:tag_name) || 'p'
-    </span><span class="uncovered1"><a name="line52"></a>52 options[:style] =
-    &quot;color: #{FLASH_MESSAGE_COLORS[key.to_sym]}&quot; if options.empty?
-    </span><span class="uncovered0"><a name="line53"></a>53 options.update(:id
-    =&gt; &quot;#{FLASH_MESSAGE_ID_PREFIX}_#{key.to_s}&quot;) </span><span
-    class="uncovered1"><a name="line54"></a>54 content_tag(tag_name, flash[key]
-    || ' ', options) </span><span class="uncovered0"><a name="line55"></a>55 end
-    </span><span class="inferred1"><a name="line56"></a>56 </span><span
-    class="marked0"><a name="line57"></a>57 def ajax_flash_message_for(*args)
-    </span><span class="uncovered1"><a name="line58"></a>58 options =
-    args.extract_options! </span><span class="uncovered0"><a
-    name="line59"></a>59 effect = options[:effect] </span><span
-    class="uncovered1"><a name="line60"></a>60 update_page_tag do |page|
-    </span><span class="uncovered0"><a name="line61"></a>61 args.each do |key|
-    </span><span class="uncovered1"><a name="line62"></a>62
+    flash_message_for(*args) </span><span class="marked0"><a
+    name="line51"></a>51 options = args.extract_options! </span><span
+    class="marked1"><a name="line52"></a>52 tag_name = options.delete(:tag_name)
+    || 'p' </span><span class="marked0"><a name="line53"></a>53 tags = args.map
+    do |key| </span><span class="marked1"><a name="line54"></a>54
+    options[:style] = &quot;color: #{FLASH_MESSAGE_COLORS[key.to_sym]}&quot; if
+    options.empty? </span><span class="marked0"><a name="line55"></a>55
+    options.update(:id =&gt; &quot;#{FLASH_MESSAGE_ID_PREFIX}_#{key.to_s}&quot;)
+    </span><span class="marked1"><a name="line56"></a>56 content_tag(tag_name,
+    flash[key] || ' ', options) </span><span class="inferred0"><a
+    name="line57"></a>57 end </span><span class="marked1"><a
+    name="line58"></a>58 tags.join </span><span class="inferred0"><a
+    name="line59"></a>59 end </span><span class="inferred1"><a
+    name="line60"></a>60 </span><span class="marked0"><a name="line61"></a>61
+    def ajax_flash_message_for(*args) </span><span class="marked1"><a
+    name="line62"></a>62 options = args.extract_options! </span><span
+    class="marked0"><a name="line63"></a>63 effect = options[:effect]
+    </span><span class="marked1"><a name="line64"></a>64 update_page_tag do
+    |page| </span><span class="marked0"><a name="line65"></a>65 args.each do
+    |key| </span><span class="marked1"><a name="line66"></a>66
     page.replace_html(&quot;#{FLASH_MESSAGE_ID_PREFIX}_#{key.to_s}&quot;,
-    flash[key]) </span><span class="uncovered0"><a name="line63"></a>63 end
-    </span><span class="uncovered1"><a name="line64"></a>64 if effect
-    </span><span class="uncovered0"><a name="line65"></a>65 args.each do |key|
-    </span><span class="uncovered1"><a name="line66"></a>66
-    page.visual_effect(effect,
+    flash[key]) </span><span class="inferred0"><a name="line67"></a>67 end
+    </span><span class="marked1"><a name="line68"></a>68 if effect </span><span
+    class="marked0"><a name="line69"></a>69 args.each do |key| </span><span
+    class="marked1"><a name="line70"></a>70 page.visual_effect(effect,
     &quot;#{FLASH_MESSAGE_ID_PREFIX}_#{key.to_s}&quot;) </span><span
-    class="uncovered0"><a name="line67"></a>67 end </span><span
-    class="uncovered1"><a name="line68"></a>68 if nested_ajax_options[:pane_id]
-    </span><span class="uncovered0"><a name="line69"></a>69
+    class="inferred0"><a name="line71"></a>71 end </span><span
+    class="marked1"><a name="line72"></a>72 if nested_ajax_options[:pane_id]
+    </span><span class="marked0"><a name="line73"></a>73
     page.visual_effect(effect, nested_ajax_options[:pane_id]) </span><span
-    class="uncovered1"><a name="line70"></a>70 end </span><span
-    class="uncovered0"><a name="line71"></a>71 end </span><span
-    class="uncovered1"><a name="line72"></a>72 end </span><span
-    class="uncovered0"><a name="line73"></a>73 end </span><span
-    class="uncovered1"><a name="line74"></a>74 </span><span
-    class="uncovered0"><a name="line75"></a>75 end </span><span
-    class="uncovered1"><a name="line76"></a>76 end </span></pre>
+    class="inferred1"><a name="line74"></a>74 end </span><span
+    class="inferred0"><a name="line75"></a>75 end </span><span
+    class="inferred1"><a name="line76"></a>76 end </span><span
+    class="inferred0"><a name="line77"></a>77 end </span><span
+    class="inferred1"><a name="line78"></a>78 </span><span class="inferred0"><a
+    name="line79"></a>79 end </span><span class="inferred1"><a
+    name="line80"></a>80 end </span></pre>
     <hr />
     <p> Generated using the <a href='http://eigenclass.org/hiki.rb?rcov'> rcov
     code coverage analysis tool for Ruby </a> version 0.8.1.2. </p>
