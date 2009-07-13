@@ -21,7 +21,7 @@ describe "/<%= controller_file_path %>/edit.<%= default_file_extension %>" do
 <% for attribute in output_attributes -%>
 <% if attribute.belongs_to? -%>
       with_tag("input[id=?][type=text]", /<%= class_name %>_\d+_<%= attribute.reflection.name %>_display/)
-      with_tag("input[id=?][type=hidden][name=?]", /<%= class_name %>_\d+_<%= attribute.reflection.name %>_fk/, "<%= file_name %>[<%= attribute.name %>]")
+      with_tag("input[id=?][type=?][name=?]", /<%= class_name %>_\d+_<%= attribute.reflection.name %>_fk/, /text|hidden/i, "<%= file_name %>[<%= attribute.name %>]")
 <% else -%>
       with_tag("<%= attribute.input_type -%>#<%= file_name %>_<%= attribute.name %>[name=?]", "<%= file_name %>[<%= attribute.name %>]")
 <% end -%>

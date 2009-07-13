@@ -25,7 +25,9 @@
   <div class="indent">
     <%% f.pane.has_many(:<%= reflection.name %>, :controller => '<%= has_many_controller_name %>') do |<%= reflection.name %>_pane| -%>
       <%% <%= reflection.name %>_pane.each do |<%= reflection.name.to_s.singularize %>_pane| -%>
-        <%%= <%= reflection.name.to_s.singularize %>_pane.render :file => '<%= has_many_controller_name %>/edit' %>
+        <%%= <%= reflection.name.to_s.singularize %>_pane.render_new_or_edit(:file,
+             :new=> '<%= has_many_controller_name %>/new',
+             :edit=> '<%= has_many_controller_name %>/edit' %>
       <%% end -%>
       <%%= <%= reflection.name %>_pane.link_to_new('add <%= reflection.name.to_s.singularize %>') %>
     <%% end -%>

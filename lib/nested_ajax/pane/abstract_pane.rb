@@ -9,7 +9,7 @@ module NestedAjax
 
       attr_accessor :controller
       attr_accessor :parent, :association_foreign_key
-      attr_accessor :form
+      # attr_accessor :form
       attr_reader :template, :options
       attr_reader :object, :object_name
       attr_reader :pane_id
@@ -77,6 +77,20 @@ module NestedAjax
         @template.render(options, local_assigns, &block)
       end
 
+      def render_new_or_edit(key, options = {})
+        options = {
+          :new => 'new',
+          :edit => 'edit',
+        }.update(options || {})
+        action = self.object.new_record? ? :new : :edit
+        views = {
+          :new => options.delete(:new),
+          :edit => options.delete(:edit)
+        }
+        options[key] = views[action]
+        self.render(options)
+      end
+
       def base_form_name
         @base_form_name ||= object_name
       end
@@ -115,8 +129,17 @@ module NestedAjax
         request.xhr? ? false : (!params[:nested_ajax] && !parent)
       end
 
-      def form_for(*args, &block)
-        pane_setter = lambda do |f|
+      def form
+        @form || (parent ? parent.form : nil)
+      end
+
+      def form=(value)
+        @form = value
+      end
+
+      private
+      def pane_setter(&block)
+        lambda do |f|
           f.pane = self
           old_form = self.form
           self.form = f
@@ -126,14 +149,21 @@ module NestedAjax
             self.form = old_form
           end
         end
-        if params[:nested_ajax]
-          form_or_fields_for(*args, &pane_setter)
-        else
-          @template.form_for(*args, &pane_setter)
-        end
       end
 
-      private
+      public
+
+      def fields_for(*args, &block)
+        (form || @template).fields_for(*args, &pane_setter(&block))
+      end
+
+      def form_for(*args, &block)
+        if params[:nested_ajax]
+          form_or_fields_for(*args, &pane_setter(&block))
+        else
+          @template.form_for(*args, &pane_setter(&block))
+        end
+      end
 
       def form_or_fields_for(*args, &block)
         if form_name = nested_ajax_options[:form_name]
@@ -152,7 +182,7 @@ module NestedAjax
 
       def fields_for_nested_ajax(*args, &block)
         PaneTag.render(@template, pane_id, options[:html]) do
-          fields_for(*args, &block)
+          @template.fields_for(*args, &block)
         end
       end
 

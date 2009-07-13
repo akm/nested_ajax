@@ -23,7 +23,7 @@ module NestedAjax
     ]
 
     pane_forwarding_methods.each do |forwarding_method|
-      class_eval(<<-EOS)
+      class_eval(<<-EOS, __FILE__, __LINE__)
         def #{forwarding_method}(*args, &block)
           raise NestedAjax::UsageError, "This form has no pane. You may use form_for instead of pane.form_for" unless pane
           pane.#{forwarding_method}(*args, &block)

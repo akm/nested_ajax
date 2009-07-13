@@ -53,7 +53,7 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
   class Attribute < Rails::Generator::GeneratedAttribute
 
     attr_reader :reflection 
-    attr_reader :selectable_attr_type, :selectable_attr_base_name, :selectable_attr_enum
+    attr_accessor :selectable_attr_type, :selectable_attr_base_name, :selectable_attr_enum
     
     def initialize(generator, column, reflection = nil)
       @generator = generator
@@ -101,13 +101,14 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
       end
     end
     
-    def default_value
+    def default_value(for_view = false)
       if selectable_attr_type and selectable_attr_enum
         case selectable_attr_type
         when :single
-          return selectable_attr_enum.entries.first.id.inspect
+          entry = selectable_attr_enum.entries.first
+          return entry.send(for_view ? :name : :id).inspect
         when :multi
-          return selectable_attr_enum.entries.map(&:id).inspect
+          return selectable_attr_enum.entries.map(for_view ? :name : :id).inspect
         end
       end
       case type
@@ -284,7 +285,7 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
     result = []
     test_attr_names.each do |attr_name|
       attr = attributes_hash[attr_name]
-      result << ':%s => %s' % [attr_name, attr.data_in_functional_test]
+      result << ':%s => %s' % [attr_name, attr.default_value]
     end
     '{%s}' % result.join(', ')
   rescue Exception => e

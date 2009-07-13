@@ -3,15 +3,15 @@
 <% attributes.each do |attribute|  -%>
 <% if attribute.belongs_to? -%>
 <%% unless pane.foreign_key?(:<%= attribute.name %>) -%>
-  <div>
+  <div class="row">
     <div class="label"><%= attribute.reflection.name %>:</div>
-    <div class="value <%= attribute.name %>"><%%=h @<%= controller_singular_name %>.<%= attribute.reflection.name %>_name_for_nested_ajax %></div>
+    <div class="field <%= attribute.name %>"><%%=h @<%= controller_singular_name %>.<%= attribute.reflection.name %>_name_for_nested_ajax %></div>
   </div>
 <%% end -%>
 <% else -%>
-  <div>
+  <div class="row">
     <div class="label"><%= attribute.name %>:</div>
-    <div class="value <%= attribute.name %>"><%%=h @<%= controller_singular_name %>.<%= attribute.name %> %></div>
+    <div class="field <%= attribute.name %>"><%%=h @<%= controller_singular_name %>.<%= attribute.name %> %></div>
   </div>
 <% end -%>
 <% end -%>
