@@ -1,6 +1,32 @@
 # -*- coding: utf-8 -*-
 require "yaml/store"
 
+class ActiveRecord::Reflection::AssociationReflection
+  attr_accessor :accepts_allow_destroy
+end
+
+class ActiveRecord::Base
+  class << self
+    def accepts_nested_attributes_for_with_nested_ajax_generator(*attr_names, &block)
+      original_attr_names = attr_names.dup
+      options = { :allow_destroy => false }
+      options.update(attr_names.extract_options!)
+      result = accepts_nested_attributes_for_without_nested_ajax_generator(*original_attr_names, &block)
+      if options[:allow_destroy]
+        attr_names.each do |attr_name|
+          self.reflections[attr_name.to_sym].accepts_allow_destroy = true
+        end
+      end
+      result
+    end
+  end
+  self.instance_eval do
+    alias :accepts_nested_attributes_for_without_nested_ajax_generator :accepts_nested_attributes_for
+    alias :accepts_nested_attributes_for :accepts_nested_attributes_for_with_nested_ajax_generator
+  end
+end
+
+
 module Rails::Generator::Commands
   def self.map_resources_def(*resources)
     options = resources.extract_options!
@@ -50,16 +76,13 @@ end
 
 class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
 
-  class Attribute < Rails::Generator::GeneratedAttribute
+  require File.join(File.dirname(__FILE__), '../base_attribute')
 
-    attr_reader :reflection 
-    attr_accessor :selectable_attr_type, :selectable_attr_base_name, :selectable_attr_enum
-    
+  class Attribute < BaseAttribute
+
     def initialize(generator, column, reflection = nil)
+      super(column, reflection)
       @generator = generator
-      @column = column
-      @name, @type = column.name, column.type.to_sym
-      @reflection = reflection
     end
     
     def field_type
@@ -89,61 +112,11 @@ class NestedAjaxScaffoldGenerator < Rails::Generator::NamedBase
       end
     end
     
-    def belongs_to?
-      @reflection && (@reflection.macro == :belongs_to)
-    end
-
     def field
       if belongs_to?
         "belongs_to_field :#{@reflection.name.to_s}, :controller => '#{@generator.model_to_controller(@reflection.class_name)}'"
       else
         "#{field_type} :#{name}"
-      end
-    end
-    
-    def default_value(for_view = false)
-      if selectable_attr_type and selectable_attr_enum
-        case selectable_attr_type
-        when :single
-          entry = selectable_attr_enum.entries.first
-          return entry.send(for_view ? :name : :id).inspect
-        when :multi
-          return selectable_attr_enum.entries.map(for_view ? :name : :id).inspect
-        end
-      end
-      case type
-      when :boolean           then 'true'
-      when :integer           then '1' 
-      when :float, :decimal   then '1.0'
-      when :datetime          then 'DateTime.now'
-      when :timestamp, :time  then 'Time.now'
-      when :date              then 'Date.today'
-      when :string            then "'some #{name}'"
-      when :text              then "\"some #{name}\ninclude multilines\""
-      else
-        "'some #{name}'"
-      end
-    end
-    
-    def name_to_show
-      case selectable_attr_type
-      when :single
-        "#{selectable_attr_base_name}_name"
-      when :multi
-        "#{selectable_attr_base_name}_names.join(', ')"
-      else
-        name
-      end
-    end
-    
-    def name_in_code
-      case selectable_attr_type
-      when :single
-        "#{selectable_attr_base_name}_key"
-      when :multi
-        "#{selectable_attr_base_name}_keys"
-      else
-        name
       end
     end
   end
