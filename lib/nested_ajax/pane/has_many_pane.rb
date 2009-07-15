@@ -16,22 +16,25 @@ module NestedAjax
       
       def each(options = nil, &block)
         @associated_object.each do |associated|
-          object_name = associated.class.name.underscore
-          options = {
-            :object_name => object_name
-          }.update(options || {})
-          pane_options = {
-            :object_name => options.delete(:object_name),
-            :controller => options.delete(:controller) || self.controller,
-            :foreign_key => association_foreign_key
-          }
-          sub_pane = SinglePane.new(template, associated, pane_options)
-          sub_pane.parent = self
-          sub_pane.process_with_tag(options, &block)
-          @child_index += 1
+          process_in_each(associated, options, &block)
         end
       end
 
+      def process_in_each(associated, options = nil, &block)
+        object_name = associated.class.name.underscore
+        options = {
+          :object_name => object_name
+        }.update(options || {})
+        pane_options = {
+          :object_name => options.delete(:object_name),
+          :controller => options.delete(:controller) || self.controller,
+          :foreign_key => association_foreign_key
+        }
+        sub_pane = SinglePane.new(template, associated, pane_options)
+        sub_pane.parent = self
+        sub_pane.process_with_tag(options, &block)
+        @child_index += 1
+      end
 
       def link_to_new(link_name, options = {}, html_options = {})
         html_options[:id] ||= "#{id}_#{association_name}_new"

@@ -4,6 +4,7 @@ require 'nested_ajax'
 module NestedAjax
   module RenderExt
     def self.included(mod)
+      return if mod.instance_methods.include?('render_without_nested_ajax')
       mod.extend(ClassMethod)
       mod.module_eval do
         alias_method_chain :render, :nested_ajax

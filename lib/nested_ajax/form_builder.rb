@@ -4,7 +4,9 @@ module NestedAjax
   module FormBuilder
     unless defined?(EXTENSIONS)
       EXTENSIONS = [
-        :BelongsToField
+        :BelongsToField,
+        :MarkForDestruction,
+        :TagForObject
       ]
 
       EXTENSIONS.each do |extension|
